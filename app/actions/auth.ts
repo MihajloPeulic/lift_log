@@ -2,7 +2,7 @@
 
 import { createServerSupabaseClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import { CalculateExpenditure } from "../lib/utils/calculateActiviry";
+import { CalculateExpenditure } from "../lib/utils/calculateActivity";
 
 
 
@@ -90,7 +90,8 @@ export async function finishProfileAction(
         calorie_expenditure, 
         protein_needs, 
         fat_needs, 
-        carbs_needs} = CalculateExpenditure(
+        carbs_needs,
+        BMR} = CalculateExpenditure(
                         bodyweight, 
                         height, 
                         date_of_birth, 
@@ -107,7 +108,9 @@ export async function finishProfileAction(
         calorie_expenditure: calorie_expenditure,
         protein_needs: protein_needs,
         fat_needs: fat_needs,
-        carbs_needs: carbs_needs
+        carbs_needs: carbs_needs,
+        activity_level: activity,
+        bmr: BMR
 
     })
 
@@ -128,7 +131,6 @@ export async function finishProfileAction(
         date_of_birth,
         gender,
         unit_system: unit,
-        activity_level: activity,
         body_fat: bodyFat
     })
 

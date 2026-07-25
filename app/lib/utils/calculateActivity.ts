@@ -1,3 +1,6 @@
+import { activityMultiplier } from "@/app/constants/nutrition";
+
+
 export function CalculateExpenditure(
     bodyweight: number,
     height: number,
@@ -20,29 +23,26 @@ export function CalculateExpenditure(
     ) {
         age--;
     }
-    const BMR =
+    
+    let BMR =
         gender === "male"
             ? (10 * bodyweight) + (6.25 * height) - (5 * age) + 5
             : (10 * bodyweight) + (6.25 * height) - (5 * age) - 161;
+
+    BMR = Number(BMR.toFixed(1))
     
-        const activityMultiplier = {
-            sedentary: 1.2,
-            lightly_active: 1.375,
-            moderately_active: 1.55,
-            very_active: 1.725,
-            extremely_active: 1.9,
-        };
+        
     
     
         const calorie_expenditure =
-            BMR * activityMultiplier[activity as keyof typeof activityMultiplier];
+            Number((BMR * activityMultiplier[activity as keyof typeof activityMultiplier]).toFixed(1));
 
     
         const protein_needs =
-            bodyweight * 2.2;
+            Number((bodyweight * 2.2).toFixed(1));
     
         const fat_needs =
-            bodyweight * 1;
+            Number((bodyweight * 1).toFixed(1));
     
         const proteinCalories =
             protein_needs * 4;
@@ -52,13 +52,14 @@ export function CalculateExpenditure(
             fat_needs * 9;
     
         const carbs_needs =
-            (calorie_expenditure - proteinCalories - fatCalories) / 4;
+            Number(((calorie_expenditure - proteinCalories - fatCalories) / 4).toFixed(1));
 
 
         return {
             calorie_expenditure: calorie_expenditure, 
             protein_needs: protein_needs, 
             carbs_needs: carbs_needs, 
-            fat_needs: fat_needs
+            fat_needs: fat_needs,
+            BMR: BMR
         }
 }

@@ -43,7 +43,12 @@ export type CalorieNeeds = {
     calorie_expenditure: number,
     protein_needs: number,
     fat_needs: number,
-    carbs_needs: number
+    carbs_needs: number,
+    bmr: number,
+    weight_goal: number,
+    activity_level: string,
+    custom_calorie_target: number,
+    weight_change_rate: number
 }
 
 
@@ -52,4 +57,5 @@ export type NutritionTotals = {
     protein: number;
     carbs: number;
     fat: number;
+
 };

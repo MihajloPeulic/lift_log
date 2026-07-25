@@ -1,9 +1,8 @@
-import Sidebar from "@/components/Sidebar_desktop";
+
 import {getCurrentUserWithProfile} from "../lib/data/user"
 import {redirect} from "next/navigation"
 import Link from "next/link";
-import EditBodyStats from "./EditBodysStats";
-import { updateBodyStats } from "../actions/updateProfile";
+
 
 
 export default async function ProfilePage() {
@@ -15,39 +14,6 @@ export default async function ProfilePage() {
   }
 
   const {user, profile} = data;
-
-  let bodyweight = 0
-  /* let bodyweightFull = "" */
-
-  let totalInches = 0
-  let height = 0
-
-  /* let feet = 0
-  let inches = 0
-  let heightFull = "" */
-
-  if(profile.unit_system === "imperial"){
-    bodyweight = Number((profile?.bodyweight * 2.20462).toFixed(1)) ;
-    /* bodyweightFull = bodyweight?.toString() + " lbs" */
-
-
-    totalInches = profile?.height ? profile.height / 2.54 : 0;
-
-    /* feet = Math.floor(totalInches / 12);
-    inches = Math.round(totalInches % 12); */
-
-    height = totalInches
-    /* heightFull = feet.toString() + " ft " + inches.toString() + " in " */
-  }else{
-    bodyweight = Number((profile?.bodyweight).toFixed(1))
-    /* bodyweightFull = bodyweight?.toString() + " kg" */
-
-
-    height = Number((profile?.height).toFixed(0)) 
-    /* heightFull = height.toString() + " cm" */
-  }
-
-  
 
   return (
 
@@ -165,31 +131,124 @@ export default async function ProfilePage() {
 
 
 
-          {/* Body Stats */}
+          {/* Profile Settings */}
 
-          <section className="mt-8">
+<section
+  className="
+    mt-8
+    overflow-hidden
+    rounded-card
+    border
+    border-border
+    bg-surface
+  "
+>
 
-            
+  <Link
+    href="/profile/body-stats"
+    className="
+      flex
+      items-center
+      justify-between
+      px-5
+      py-4
+      transition
+      hover:bg-surface-light
+    "
+  >
 
-              <EditBodyStats
-                  bodyweight={bodyweight}
-                  height={height}
-                  unit_system={profile.unit_system}
-                  date_of_birth={profile.date_of_birth}
-                  bodyFat={profile.body_fat}
-                  gender={profile.gender}
-              ></EditBodyStats>
+    <span className="font-medium">
+      Edit Body Stats
+    </span>
+
+    <span className="text-text-secondary">
+      →
+    </span>
+
+  </Link>
 
 
-            
+  <div className="h-px bg-border mx-5" />
 
 
-          </section>
+  <Link
+    href="/profile/macronutrient-targets"
+    className="
+      flex
+      items-center
+      justify-between
+      px-5
+      py-4
+      transition
+      hover:bg-surface-light
+    "
+  >
+
+    <span className="font-medium">
+      Macronutrient targets
+    </span>
+
+    <span className="text-text-secondary">
+      →
+    </span>
+
+  </Link>
 
 
+  <div className="h-px bg-border mx-5" />
 
 
+  <Link
+    href="/profile/energy-expenditure"
+    className="
+      flex
+      items-center
+      justify-between
+      px-5
+      py-4
+      transition
+      hover:bg-surface-light
+    "
+  >
 
+    <span className="font-medium">
+      Energy Expenditure
+    </span>
+
+    <span className="text-text-secondary">
+      →
+    </span>
+
+  </Link>
+
+  <div className="h-px bg-border mx-5" />
+
+
+  <Link
+    href="/profile/weight-goal"
+    className="
+      flex
+      items-center
+      justify-between
+      px-5
+      py-4
+      transition
+      hover:bg-surface-light
+    "
+  >
+
+    <span className="font-medium">
+      Weight Goal
+    </span>
+
+    <span className="text-text-secondary">
+      →
+    </span>
+
+  </Link>
+
+
+</section>
 
 
 
