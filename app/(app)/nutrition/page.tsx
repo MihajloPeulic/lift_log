@@ -1,6 +1,6 @@
 import Sidebar from "@/components/Sidebar_desktop";
 import DateSelector from "@/components/DateSelector";
-import MealsSection from "./MealsSection";
+import MealsSection from "./meal-components/MealsSection";
 import { getMeals } from "@/app/lib/data/meals";
 import { getCalorieNeeds } from "@/app/lib/data/food";
 import { getCurrentUser } from "@/app/lib/data/user";
@@ -32,12 +32,7 @@ export default async function NutritionPage({
 
   const meals = await getMeals(selectedDate)
 
-  const macros = [
-    ["Protein", "128g", "/160g", "80%"],
-    ["Carbs", "195g", "/300g", "65%"],
-    ["Fat", "72g", "/80g", "90%"],
-  ];
-
+  
   return (
 
     <div className="min-h-screen bg-background text-text">

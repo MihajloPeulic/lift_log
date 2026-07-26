@@ -38,7 +38,44 @@ export async function getMeals(date: string) {
                     calories,
                     protein,
                     carbs,
-                    fat
+                    fat,
+                    fiber,
+                    sugar,
+                    sodium,
+                    cholesterol,
+
+                    vitamin_a,
+                    vitamin_c,
+                    vitamin_d,
+                    vitamin_e,
+                    vitamin_k,
+
+                    vitamin_b1,
+                    vitamin_b2,
+                    vitamin_b3,
+                    vitamin_b5,
+                    vitamin_b6,
+                    vitamin_b7,
+                    vitamin_b9,
+                    vitamin_b12,
+
+                    calcium,
+                    iron,
+                    magnesium,
+                    phosphorus,
+                    potassium,
+                    zinc,
+                    copper,
+                    manganese,
+                    selenium,
+
+                    iodine,
+                    chromium,
+                    molybdenum,
+                    choline,
+
+                    omega_3,
+                    omega_6
                 ),
                 food_units(
                     id,

@@ -2,11 +2,50 @@ export type Food = {
     id: string;
     default_unit: string;
     name: string;
+    category: string;
+
     calories: number;
     protein: number;
     carbs: number;
     fat: number;
-    category: string;
+
+    fiber: number;
+    sugar: number;
+    sodium: number;
+    cholesterol: number;
+
+    vitamin_a: number;
+    vitamin_c: number;
+    vitamin_d: number;
+    vitamin_e: number;
+    vitamin_k: number;
+
+    vitamin_b1: number;
+    vitamin_b2: number;
+    vitamin_b3: number;
+    vitamin_b5: number;
+    vitamin_b6: number;
+    vitamin_b7: number;
+    vitamin_b9: number;
+    vitamin_b12: number;
+
+    calcium: number;
+    iron: number;
+    magnesium: number;
+    phosphorus: number;
+    potassium: number;
+    zinc: number;
+    copper: number;
+    manganese: number;
+    selenium: number;
+
+    iodine: number;
+    chromium: number;
+    molybdenum: number;
+    choline: number;
+
+    omega_3: number;
+    omega_6: number;
 };
 
 export type Unit = {
@@ -26,14 +65,7 @@ export type MealItem = {
         unit_name:string;
     };
 
-    foods:{
-        id:string;
-        name:string;
-        calories:number;
-        protein:number;
-        carbs:number;
-        fat:number;
-    };
+    foods: Food
 };
 
 
@@ -58,4 +90,41 @@ export type NutritionTotals = {
     carbs: number;
     fat: number;
 
+    fiber: number;
+    sugar: number;
+    sodium: number;
+    cholesterol: number;
+
+    vitamin_a: number;
+    vitamin_c: number;
+    vitamin_d: number;
+    vitamin_e: number;
+    vitamin_k: number;
+
+    vitamin_b1: number;
+    vitamin_b2: number;
+    vitamin_b3: number;
+    vitamin_b5: number;
+    vitamin_b6: number;
+    vitamin_b7: number;
+    vitamin_b9: number;
+    vitamin_b12: number;
+
+    calcium: number;
+    iron: number;
+    magnesium: number;
+    phosphorus: number;
+    potassium: number;
+    zinc: number;
+    copper: number;
+    manganese: number;
+    selenium: number;
+
+    iodine: number;
+    chromium: number;
+    molybdenum: number;
+    choline: number;
+
+    omega_3: number;
+    omega_6: number;
 };

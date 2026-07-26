@@ -4,9 +4,9 @@ import { useState } from "react";
 import { Food, NutritionTotals, Unit } from "@/app/types/food";
 import { addFood } from "@/app/actions/nutrition";
 import { SubmitButton } from "@/components/SubmitButton";
-import Micronutrients from "../../../Micronutrients";
+import Micronutrients from "../../../nutrient-components/Micronutrients";
 import { useNutrition } from "../../../NutritionProvider";
-import Macronutrients from "../../../Macronutrients";
+import Macronutrients from "../../../nutrient-components/Macronutrients";
 
 
 

@@ -82,7 +82,8 @@ export default function Macronutrients(
                     <div
                         className="h-full rounded-full bg-primary"
                         style={{
-                            width:`${caloriePercent}%`
+                            width:`${caloriePercent}%`,
+                            maxWidth: "100%"
                         }}
                     />
 

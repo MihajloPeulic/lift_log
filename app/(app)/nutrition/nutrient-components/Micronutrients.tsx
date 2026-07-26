@@ -1,62 +1,26 @@
 "use client"
 
 import { useState } from "react";
+import { micronutrientTargets } from "@/app/constants/nutrition";
+
+
+import { NutritionTotals } from "@/app/types/food"
+
 
 export default function Micronutrients(
     {
-
+        micros = []
     }: {
-
+        micros: any[]
     }
 ) {
 
     const [showAllMicros, setShowAllMicros] = useState(false);
 
 
-    const micronutrients = [
-        {
-            name:"Fiber",
-            value:"18g",
-            goal:"30g",
-            percent:60
-        },
-        {
-            name:"Sodium",
-            value:"1200mg",
-            goal:"2300mg",
-            percent:52
-        },
-        {
-            name:"Potassium",
-            value:"2500mg",
-            goal:"3500mg",
-            percent:71
-        },
-        {
-            name:"Calcium",
-            value:"700mg",
-            goal:"1000mg",
-            percent:70
-        },
-        {
-            name:"Iron",
-            value:"12mg",
-            goal:"18mg",
-            percent:67
-        },
-        {
-            name:"Magnesium",
-            value:"280mg",
-            goal:"400mg",
-            percent:70
-        }
-    ];
-    
-    
     const visibleMicros = showAllMicros
-        ? micronutrients
-        : micronutrients.slice(0,4);
-
+        ? micros
+        : micros.slice(0, 4);
 
     return (
             <section className="mt-8">
@@ -75,7 +39,7 @@ export default function Micronutrients(
 
                 <div className="mt-5 space-y-2">
 
-                    {visibleMicros.map((micro)=>(
+                    {visibleMicros.map((micro) => (
 
                         <article
                             key={micro.name}
@@ -99,7 +63,7 @@ export default function Micronutrients(
                                     </p>
 
                                     <span className="text-sm text-text-secondary">
-                                        {micro.value} / {micro.goal}
+                                        {micro.value} / {micro.daily_target} {micro.unit}
                                     </span>
 
                                 </div>
@@ -110,12 +74,14 @@ export default function Micronutrients(
 
                             </div>
 
+
                             <div className="mt-1.5 h-2 rounded-full bg-surface-light">
 
                                 <div
                                     className="h-full rounded-full bg-primary"
                                     style={{
-                                        width: `${micro.percent}%`
+                                        width: `${micro.percent}%`,
+                                        maxWidth: "100%"
                                     }}
                                 />
 

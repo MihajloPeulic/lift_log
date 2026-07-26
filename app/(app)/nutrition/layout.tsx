@@ -23,6 +23,8 @@ export default async function NutritionLayout({
 
     const dailyTotals = await getCalorieNeeds(user.id)
 
+    
+
     return (
         <NutritionProvider dailyTotals={dailyTotals}>
             {children}

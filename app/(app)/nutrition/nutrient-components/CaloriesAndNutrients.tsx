@@ -11,12 +11,14 @@ export default function CaloriesAndNutrients(
     dailyTotals,
     calorieGoal,
     caloriePercent,
-    macros
+    macros,
+    micros
    } :{
     dailyTotals: NutritionTotals,
     calorieGoal: number,
     caloriePercent: number,
-    macros: any[]
+    macros: any[],
+    micros: any[]
 }
 
 ) {
@@ -34,7 +36,10 @@ export default function CaloriesAndNutrients(
 
             {/* MICRONUTRIENTS */}
 
-            <Micronutrients />
+            <Micronutrients 
+                dailyTotals={dailyTotals}
+                micros={micros}
+            />
             
         </>
 )

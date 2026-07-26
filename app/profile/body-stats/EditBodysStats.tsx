@@ -2,7 +2,7 @@
 
 import { updateBodyStats } from "../../actions/updateProfile";
 import Link from "next/link";
-
+import { CalendarDays, UserRound, Scale, Ruler, Percent } from "lucide-react";
 
 export default function EditBodyStats({
     bodyweight,
@@ -132,10 +132,13 @@ export default function EditBodyStats({
         "
     >
 
-        <label className="text-sm font-medium">
-            Age
-        </label>
+        <div className="flex items-center gap-2">
+            <CalendarDays className="h-4 w-4 text-primary" />
 
+            <label className="text-sm font-medium">
+                Age
+            </label>
+        </div>
 
         <input
             type="date"
@@ -169,9 +172,13 @@ export default function EditBodyStats({
         "
     >
 
-        <label className="text-sm font-medium">
-            Gender
-        </label>
+        <div className="flex items-center gap-2">
+            <UserRound className="h-4 w-4 text-primary" />
+
+            <label className="text-sm font-medium">
+                Gender
+            </label>
+        </div>
 
 
         <select
@@ -219,9 +226,13 @@ export default function EditBodyStats({
         "
     >
 
-        <label className="text-sm font-medium">
-            Bodyweight
-        </label>
+        <div className="flex items-center gap-2">
+            <Scale className="h-4 w-4 text-primary" />
+
+            <label className="text-sm font-medium">
+                Bodyweight
+            </label>
+        </div>
 
 
         <div className="relative w-40">
@@ -275,9 +286,13 @@ export default function EditBodyStats({
         "
     >
 
-        <label className="text-sm font-medium">
-            Height
-        </label>
+        <div className="flex items-center gap-2">
+            <Ruler className="h-4 w-4 text-primary" />
+
+            <label className="text-sm font-medium">
+                Height
+            </label>
+        </div>
 
 
         {unit_system === "metric" ? (
@@ -373,9 +388,13 @@ export default function EditBodyStats({
         "
     >
 
-        <label className="text-sm font-medium">
-            Body fat %
-        </label>
+        <div className="flex items-center gap-2">
+            <Percent className="h-4 w-4 text-primary" />
+
+            <label className="text-sm font-medium">
+                Body fat %
+            </label>
+        </div>
 
 
         <div className="relative w-40">

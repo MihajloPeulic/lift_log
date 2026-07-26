@@ -30,20 +30,18 @@ export async function updateUnit(unit: string) {
 
 export async function updateBodyStats(formData: FormData) {
 
-
     const supabase = await createServerSupabaseClient();
 
-    let bodyweight = Number(formData.get("bodyweight"))
-    let height = Number(formData.get("height"))
-    let feet = Number(formData.get("feet"))
-    let inch = Number(formData.get("inch"))
+    let bodyweight = Number(formData.get("bodyweight"));
+    let height = Number(formData.get("height"));
+    let feet = Number(formData.get("feet"));
+    let inch = Number(formData.get("inch"));
 
-    let date_of_birth = String(formData.get("date_of_birth"))
-    let gender = String(formData.get("gender"))
-    let bodyFat = Number(formData.get("bodyFat"))
+    let date_of_birth = String(formData.get("date_of_birth"));
+    let gender = String(formData.get("gender"));
+    let bodyFat = Number(formData.get("bodyFat"));
 
-
-    const unitSystem = String(formData.get("unitSystem"))
+    const unitSystem = String(formData.get("unitSystem"));
 
     if(unitSystem === "imperial"){
         const totalInches = (feet * 12) + inch;
@@ -58,22 +56,40 @@ export async function updateBodyStats(formData: FormData) {
         throw new Error("Not authenticated");
     }
 
-    const { data, error } = await supabase
-        .from("profiles")
-        .update({
-            height: height,
-            bodyweight: bodyweight,
-            body_fat: bodyFat,
-            gender: gender,
-            date_of_birth: date_of_birth
-        })
-        .eq("id", user.id)
-        .select();;
 
-    if(error){
-        throw new Error(error.message)
+    const updates: Record<string, unknown> = {};
+
+    if(formData.get("height") !== null){
+        updates.height = height;
     }
 
-    redirect("/profile")
+    if(formData.get("bodyweight") !== null){
+        updates.bodyweight = bodyweight;
+    }
+
+    if(formData.get("bodyFat") !== null){
+        updates.body_fat = bodyFat;
+    }
+
+    if(formData.get("gender") !== null){
+        updates.gender = gender;
+    }
+
+    if(formData.get("date_of_birth") !== null){
+        updates.date_of_birth = date_of_birth;
+    }
+
+
+    const { data, error } = await supabase
+        .from("profiles")
+        .update(updates)
+        .eq("id", user.id)
+        .select();
+
+    if(error){
+        throw new Error(error.message);
+    }
+
+    redirect("/profile");
 
 }
