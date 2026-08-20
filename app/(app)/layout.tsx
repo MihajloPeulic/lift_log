@@ -19,19 +19,19 @@ export default async function AppLayout({
   let avatar_url = profile?.avatar_url;
 
   if (!avatar_url) {
-    avatar_url = profile?.full_name?.slice(0, 2).toUpperCase();
+    avatar_url = profile?.full_name?.trim().split(/\s+/)
+    .map((part: string) => part[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
   }
-
-    if(!avatar_url){
-      avatar_url = user?.user_metadata.username?.charAt(0).toUpperCase();
-    }
 
 
   return (
     <div className="min-h-screen bg-background text-text">
       <div className="flex min-h-screen">
         <Sidebar 
-          username={user?.user_metadata.username}
+          username={user?.user_metadata.full_name}
           avatar_url={avatar_url}
         />
 

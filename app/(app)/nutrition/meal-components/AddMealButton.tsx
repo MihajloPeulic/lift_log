@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { createMeal } from "@/app/actions/nutrition";
+import { Tooltip } from "@/components/Tooltip";
 
 
 export default function AddMealModal({
@@ -47,14 +48,14 @@ export default function AddMealModal({
     <>
 
       {/* Add meal button */}
-
+      <Tooltip text="Add Meals">
       <button
         onClick={()=>setOpen(true)}
         className=" cursor-pointer rounded-button bg-primary px-5 py-3 font-semibold text-black transition hover:bg-primary-hover"
       >
         + Add meal
       </button>
-
+    </Tooltip>
 
 
 
@@ -174,6 +175,7 @@ export default function AddMealModal({
                   <button
                     onClick={()=>setOpen(false)}
                     className="
+                      cursor-pointer
                       flex-1 rounded-button
                       border border-border
                       py-3
@@ -190,6 +192,7 @@ export default function AddMealModal({
                   <button
                     onClick={createMealPage}
                     className="
+                      cursor-pointer
                       flex-1 rounded-button
                       bg-primary
                       py-3

@@ -2,6 +2,7 @@
 import {getCurrentUserWithProfile} from "../lib/data/user"
 import {redirect} from "next/navigation"
 import Link from "next/link";
+import { ChevronRight } from "lucide-react";
 
 
 
@@ -69,42 +70,48 @@ export default async function ProfilePage() {
 
           {/* User Card */}
 
-          <section className="mt-8 rounded-card border border-border bg-surface p-card">
-
-
+          <Link
+            href="/profile/profile_settings"
+            className="
+              mt-8
+              flex
+              items-center
+              justify-between
+              rounded-card
+              border
+              border-border
+              bg-surface
+              p-card
+              transition-colors
+              hover:bg-surface-hover
+              cursor-pointer
+            "
+          >
             <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
-
-
               <div className="flex h-28 w-28 items-center justify-center rounded-full bg-primary text-4xl font-bold text-black">
-                {
-                  profile?.avatar_url ? (
-                    <img
-                      className="h-full w-full rounded-full object-cover"
-                      src={profile.avatar_url}
-                      alt=""
-                    />
-                  ) : (
-                    profile?.full_name
-                      ?.slice(0, 2)
-                      .toUpperCase()
-                  )
-                }
+                {profile?.avatar_url ? (
+                  <img
+                    className="h-full w-full rounded-full object-cover"
+                    src={profile.avatar_url}
+                    alt=""
+                  />
+                ) : (
+                  profile?.full_name
+                    ?.trim()
+                    .split(/\s+/)
+                    .map((part: string) => part[0])
+                    .slice(0, 2)
+                    .join("")
+                    .toUpperCase()
+                )}
               </div>
 
-
               <div>
-
-                <h2 className="text-3xl font-bold">
-                  {user.user_metadata.username}
-                </h2>
-
+                <h2 className="text-3xl font-bold">{profile?.full_name}</h2>
 
                 <p className="mt-1 text-text-secondary">
-                  {
-                    profile.role.charAt(0).toUpperCase() + profile.role.slice(1)
-                  }
+                  {profile.role.charAt(0).toUpperCase() + profile.role.slice(1)}
                 </p>
-
 
                 <p className="mt-3 text-sm text-text-muted">
                   Member since{" "}
@@ -114,15 +121,13 @@ export default async function ProfilePage() {
                     year: "numeric",
                   })}
                 </p>
-
-
               </div>
-
-
             </div>
 
-
-          </section>
+              <span className="text-text-secondary">
+                →
+              </span>
+          </Link>
 
 
 

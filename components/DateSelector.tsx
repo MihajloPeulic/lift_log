@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Tooltip } from "@/components/Tooltip";
 
 
 export default function DateSelector() {
@@ -60,14 +61,14 @@ export default function DateSelector() {
 
     <div className="relative flex items-center justify-between rounded-card border border-border bg-surface p-card">
 
-
+    <Tooltip text="Yesterday">
       <button
         onClick={()=>changeDay(-1)}
         className="cursor-pointer flex h-10 w-10 items-center justify-center rounded-button bg-surface-light hover:bg-surface"
       >
         ←
       </button>
-
+    </Tooltip>
 
 
 
@@ -93,14 +94,14 @@ export default function DateSelector() {
 
 
 
-
+    <Tooltip text="Tomorrow">
       <button
         onClick={()=>changeDay(1)}
         className="cursor-pointer flex h-10 w-10 items-center justify-center rounded-button bg-surface-light hover:bg-surface"
       >
         →
       </button>
-
+    </Tooltip>
 
 
 

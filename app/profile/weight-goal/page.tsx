@@ -19,7 +19,7 @@ export default async function WeightGoal() {
     const {user, profile} = data
     
     const nutrient_needs = await getCalorieNeeds(user.id)
-    const usersWeight = profile.bodyweight
+    const usersWeight = profile.current_bodyweight
 
     
 

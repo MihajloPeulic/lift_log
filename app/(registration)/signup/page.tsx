@@ -118,27 +118,7 @@ export default async function SignupPage({
 
             </div>
 
-            {/* Username */}
-            <div>
-
-              <label
-                htmlFor="username"
-                className="mb-2 block text-sm font-medium"
-              >
-                Username
-              </label>
-
-              <input
-                id="username"
-                name="username"
-                type="text"
-                placeholder="john_lifts2"
-                autoComplete="name"
-                className="w-full rounded-button border border-border bg-background px-4 py-3 text-sm outline-none transition placeholder:text-text-muted focus:border-primary focus:ring-2 focus:ring-primary/20"
-              />
-
-
-            </div>
+            
 
             {/* Email */}
 

@@ -3,6 +3,7 @@
 import { createServerSupabaseClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { CalculateExpenditure } from "../lib/utils/calculateActivity";
+import { addBwHistory } from "./updateProfile";
 
 
 
@@ -19,7 +20,6 @@ export async function signUpAction(
     const confirmPassword = String(formData.get("confirm_password"));
 
     const fullName = String(formData.get("full_name"));
-    const username = String(formData.get("username"));
     const role = String(formData.get("role"));
 
 
@@ -35,7 +35,6 @@ export async function signUpAction(
         options: {
             data: {
                 full_name: fullName,
-                username,
                 role,
             },
         },
@@ -126,7 +125,7 @@ export async function finishProfileAction(
         username: user.user_metadata.username,
         role: user.user_metadata.role,
 
-        bodyweight,
+        current_bodyweight: bodyweight,
         height,
         date_of_birth,
         gender,
@@ -138,7 +137,7 @@ export async function finishProfileAction(
         throw new Error(profileError.message)
     }
 
-    
+    await addBwHistory(bodyweight, user.id)
 
 
     redirect("/dashboard")
@@ -176,4 +175,59 @@ export async function logInAction(formData: FormData) {
     }
 
     redirect("/dashboard");
+}
+
+
+export async function changeUserInfo(formData: FormData) {
+  const full_name = String(formData.get("fullName"));
+  const email = String(formData.get("email"));
+
+  const oldEmail = String(formData.get("oldEmail"));
+  const oldName = String(formData.get("oldName"));
+
+  const supabase = await createServerSupabaseClient();
+
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+
+  if (userError || !user) {
+    throw new Error("User not authenticated");
+  }
+
+
+  const profileUpdates: {
+    full_name?: string;
+  } = {};
+
+
+  if (full_name !== oldName) {
+    profileUpdates.full_name = full_name;
+  }
+
+
+  // Update auth.users email
+  if (email !== oldEmail) {
+    const { error } = await supabase.auth.updateUser({
+      email,
+    });
+
+    if (error) {
+      throw error;
+    }
+  }
+
+
+  // Update profiles table only if needed
+  if (Object.keys(profileUpdates).length > 0) {
+    const { error } = await supabase
+      .from("profiles")
+      .update(profileUpdates)
+      .eq("id", user.id);
+
+    if (error) {
+      throw error;
+    }
+  }
 }

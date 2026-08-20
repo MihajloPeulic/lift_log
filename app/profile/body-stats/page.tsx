@@ -25,9 +25,9 @@ export default async function BodyStats() {
   let heightFull = "" */
 
   if(profile.unit_system === "imperial"){
-    bodyweight = Number((profile?.bodyweight * 2.20462).toFixed(1)) ;
+    bodyweight = Number((profile?.current_bodyweight * 2.20462).toFixed(1)) ;
     /* bodyweightFull = bodyweight?.toString() + " lbs" */
-
+  
 
     totalInches = profile?.height ? profile.height / 2.54 : 0;
 
@@ -37,9 +37,9 @@ export default async function BodyStats() {
     height = totalInches
     /* heightFull = feet.toString() + " ft " + inches.toString() + " in " */
   }else{
-    bodyweight = Number((profile?.bodyweight).toFixed(1))
+    bodyweight = Number((profile?.current_bodyweight).toFixed(1))
     /* bodyweightFull = bodyweight?.toString() + " kg" */
-
+    
 
     height = Number((profile?.height).toFixed(0)) 
     /* heightFull = height.toString() + " cm" */

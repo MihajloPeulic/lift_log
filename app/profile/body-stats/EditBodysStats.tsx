@@ -337,37 +337,75 @@ export default function EditBodyStats({
 
             <div className="flex w-40 gap-2">
 
-                <input
-                    type="number"
-                    name="feet"
-                    defaultValue={feet}
-                    className="
-                        w-1/2
-                        rounded-button
-                        border
-                        border-border
-                        bg-background
-                        px-2
-                        py-2
-                        text-right
-                    "
-                />
+                <div className="relative w-1/2">
 
-                <input
-                    type="number"
-                    name="inch"
-                    defaultValue={inch}
-                    className="
-                        w-1/2
-                        rounded-button
-                        border
-                        border-border
-                        bg-background
-                        px-2
-                        py-2
-                        text-right
-                    "
-                />
+                    <input
+                        type="number"
+                        name="feet"
+                        defaultValue={feet}
+                        className="
+                            w-full
+                            rounded-button
+                            border
+                            border-border
+                            bg-background
+                            px-2
+                            py-2
+                            pr-8
+                            text-right
+                        "
+                    />
+
+                    <span
+                        className="
+                            absolute
+                            right-3
+                            top-1/2
+                            -translate-y-1/2
+                            text-xs
+                            text-text-secondary
+                        "
+                    >
+                        ft
+                    </span>
+
+                </div>
+
+
+
+                <div className="relative w-1/2">
+
+                    <input
+                        type="number"
+                        name="inch"
+                        defaultValue={inch}
+                        className="
+                            w-full
+                            rounded-button
+                            border
+                            border-border
+                            bg-background
+                            px-2
+                            py-2
+                            pr-8
+                            text-right
+                        "
+                    />
+
+                    <span
+                        className="
+                            absolute
+                            right-3
+                            top-1/2
+                            -translate-y-1/2
+                            text-xs
+                            text-text-secondary
+                        "
+                    >
+                        in
+                    </span>
+
+                </div>
 
             </div>
 

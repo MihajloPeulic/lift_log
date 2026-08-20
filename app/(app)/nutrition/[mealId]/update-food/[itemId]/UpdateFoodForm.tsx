@@ -5,6 +5,10 @@ import { Food, Unit } from "@/app/types/food";
 import { updateMealItem, deleteMealItem} from "@/app/actions/nutrition";
 import { SubmitButton } from "@/components/SubmitButton";
 import { DeleteButton } from "@/components/DeleteButton";
+import { CalculateCaloriesAndMacros, CalculateDailyNutrition, CalculateMicros } from "@/app/lib/utils/nutrition";
+import { useNutrition } from "../../../NutritionProvider";
+import Micronutrients from "../../../nutrient-components/Micronutrients";
+import Macronutrients from "../../../nutrient-components/Macronutrients";
 
 
 
@@ -35,7 +39,6 @@ export default function UpdateFoodForm({
     const amountValue = mealItem.amount
     const itemUnit = mealItem.food_unit_id
 
-
     const initialUnit = units.find(
         (u) => u.id === mealItem.food_unit_id
     );
@@ -55,35 +58,16 @@ export default function UpdateFoodForm({
         initialUnit?.grams ?? 1
     );
 
-    
-
     const multiplier = (Number(amount || 0) * unitGrams) / 100;
 
 
+    const dailyTargets = useNutrition()
+    const dailyTotals = CalculateDailyNutrition(null, food, multiplier)
+    const micros = CalculateMicros(dailyTotals)
 
+    
 
-    const nutrition = {
-
-        calories: (food.calories * multiplier).toFixed(1),
-
-        protein: (food.protein * multiplier).toFixed(1),
-
-        carbs: (food.carbs * multiplier).toFixed(1),
-
-        fat: (food.fat * multiplier).toFixed(1),
-
-
-        /* micronutrients: Object.fromEntries(
-
-        Object.entries(food.micronutrients)
-        .map(([key,value])=>[
-            key,
-            Math.round(value * multiplier * 10) / 10
-        ])
-
-        ) */
-
-    };
+    const calsAndMacros = CalculateCaloriesAndMacros(dailyTargets, dailyTotals)
 
 
 
@@ -253,139 +237,15 @@ export default function UpdateFoodForm({
 
 
 
-
-
-
-        {/* Calories */}
-
-
-        <section className="mt-6 rounded-card border border-border bg-surface p-card">
-
-
-        <div className="flex items-center justify-between">
-
-
-        <div>
-
-        <p className="text-text-secondary">
-        Calories
-        </p>
-
-
-        <p className="mt-2 text-4xl font-bold">
-        {nutrition.calories}
-        <span className="ml-2 text-lg text-text-secondary">
-        kcal
-        </span>
-        </p>
-
-        </div>
-
-
-
-
-        <div className="
-        flex
-        h-24
-        w-24
-        items-center
-        justify-center
-        rounded-full
-        border-8
-        border-primary
-        text-xl
-        font-bold
-        ">
-
-        100%
-
-        </div>
-
-
-        </div>
-
-
-        </section>
-
-
-
-
-
-
-
-
-
-        {/* Macronutrients */}
-
-
-        <section className="mt-8">
-
-
-        <h2 className="text-xl font-bold">
-        Macronutrients
-        </h2>
-
-
-
-        <div className="mt-5 grid gap-4 sm:grid-cols-3">
-
-
-
-        {
-        [
-        ["Protein",nutrition.protein,"g"],
-        ["Carbs",nutrition.carbs,"g"],
-        ["Fat",nutrition.fat,"g"]
-
-        ].map(([name,value,unit])=>(
-
-
-        <div
-
-        key={name}
-
-        className="
-        rounded-card
-        border
-        border-border
-        bg-surface
-        p-card
-        "
-
-        >
-
-
-        <p className="text-sm text-text-secondary">
-        {name}
-        </p>
-
-
-        <p className="mt-2 text-3xl font-bold">
-
-        {value}
-
-        <span className="ml-1 text-base text-text-secondary">
-        {unit}
-        </span>
-
-        </p>
-
-
-        </div>
-
-
-        ))
-
-        }
-
-
-        </div>
-
-
-
-        </section>
-
-
+        <Macronutrients 
+            dailyTotals={dailyTotals}
+            caloriePercent={calsAndMacros.caloriePercent}
+            macros={calsAndMacros.macros}
+            calorieGoal={Number((dailyTargets.calorie_expenditure).toFixed(1))}
+        />
+
+
+        
 
 
 
@@ -396,69 +256,13 @@ export default function UpdateFoodForm({
         {/* Micronutrients */}
 
 
-        <section className="mt-8">
+        
 
 
-        <h2 className="text-xl font-bold">
-        Micronutrients
-        </h2>
-
-
-
-        <div className="mt-5 rounded-card border border-border bg-surface">
-
-
-        {/* {
-        Object.entries(nutrition.micronutrients)
-        .map(([name,value])=>(
-
-
-        <div
-
-        key={name}
-
-        className="
-        flex
-        items-center
-        justify-between
-        border-b
-        border-border
-        p-4
-        last:border-none
-        "
-
-        >
-
-
-        <p className="capitalize text-text-secondary">
-        {name}
-        </p>
-
-
-        <p className="font-semibold">
-
-        {value}
-
-        <span className="ml-1 text-sm text-text-secondary">
-        mg
-        </span>
-
-        </p>
-
-
-        </div>
-
-
-        ))
-
-        }
-        */}
-
-        </div>
-
-
-
-        </section>
+        <Micronutrients 
+            micros={micros}
+        />
+        
 
 
 

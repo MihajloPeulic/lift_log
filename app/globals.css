@@ -92,3 +92,26 @@ body {
   font-family: var(--font-sans);
 
 }
+
+@layer utilities {
+  /* Širina scrollbara */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px; /* Tanak i moderan */
+  }
+
+  /* Pozadina trake po kojoj klizi (track) */
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent; 
+    border-radius: 8px;
+  }
+
+  /* Sam klizač (thumb) */
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-border rounded-full transition-colors;
+  }
+
+  /* Klizač kada se pređe mišem preko njega (hover) */
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    @apply bg-text-secondary; 
+  }
+}

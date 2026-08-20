@@ -56,6 +56,7 @@ export async function updateBodyStats(formData: FormData) {
         throw new Error("Not authenticated");
     }
 
+    
 
     const updates: Record<string, unknown> = {};
 
@@ -64,7 +65,7 @@ export async function updateBodyStats(formData: FormData) {
     }
 
     if(formData.get("bodyweight") !== null){
-        updates.bodyweight = bodyweight;
+        updates.current_bodyweight = bodyweight;
     }
 
     if(formData.get("bodyFat") !== null){
@@ -80,16 +81,36 @@ export async function updateBodyStats(formData: FormData) {
     }
 
 
-    const { data, error } = await supabase
+    const { error } = await supabase
         .from("profiles")
         .update(updates)
-        .eq("id", user.id)
-        .select();
+        .eq("id", user.id);
 
     if(error){
         throw new Error(error.message);
     }
 
+    await addBwHistory(bodyweight, user.id)
+
     redirect("/profile");
+
+}
+
+export async function addBwHistory(newBw: number, userId: string) {
+
+    const supabase = await createServerSupabaseClient();
+
+
+    const { error } = await supabase
+        .from("bodyweight_history")
+        .insert({
+            user_id: userId,
+            bodyweight: newBw
+        });
+
+    if(error){
+        throw new Error(error.message);
+    }
+
 
 }

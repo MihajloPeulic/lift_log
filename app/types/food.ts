@@ -128,3 +128,17 @@ export type NutritionTotals = {
     omega_3: number;
     omega_6: number;
 };
+
+export type CalorieHistoryRow = {
+    amount: number;
+    foods: {
+        calories: number;
+    };
+    meals: {
+        eaten_at: string;
+        user_id: string;
+    };
+    food_units: {
+        grams: number;
+    };
+};

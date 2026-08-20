@@ -7,6 +7,7 @@ import { redirect } from "next/navigation";
 import { ActivityLevel, activityMultiplier } from "../constants/nutrition";
 
 import { CalculateExpenditure } from "../lib/utils/calculateActivity";
+import { addBwHistory } from "./updateProfile";
 
 
 
@@ -49,6 +50,29 @@ export async function createMeal(
 
 
     return data
+
+}
+
+export async function deleteMeal(
+    mealId: string,
+    date:string
+) {
+
+    const supabase = await createServerSupabaseClient();
+
+
+    const { error } = await supabase
+    .from("meals")
+    .delete()
+    .eq("id", mealId);
+
+
+    if(error){
+        throw new Error(error.message);
+    }
+
+    revalidatePath("/nutrition")
+    redirect(`/nutrition?date=${date}`)
 
 }
 
@@ -336,13 +360,15 @@ export async function setWeightGoals(formData: FormData) {
         const { error } = await supabase
         .from("profiles")
         .update({
-            bodyweight: currentWeight
+            current_bodyweight: currentWeight
         })
         .eq("id", user.id);
 
         if (error) {
             throw new Error(error.message);
         }
+
+        await addBwHistory(currentWeight, user.id)
         
     }
 
@@ -359,7 +385,7 @@ export async function setWeightGoals(formData: FormData) {
         throw new Error(needsError.message);
     }
     
-
+    
 
     
 }

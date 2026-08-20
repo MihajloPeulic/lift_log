@@ -10,8 +10,8 @@ const menuItems = [
     href: "/dashboard"
   },
   {
-    name: "Program",
-    href: "/program"
+    name: "Training",
+    href: "/training"
   },
   {
     name: "Nutrition",

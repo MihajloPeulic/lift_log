@@ -15,16 +15,17 @@ export default function Macronutrients(
         calorieGoal: number,
         caloriePercent: number,
         macros: any[]
+
     }
     
 ) {
 
-    
+    const [page, setPage] = useState(0);
 
 
     return (
         <>
-            <section className="mt-8">
+            <section className="">
 
                 <h2 className="text-xl font-bold">
                     Calories
