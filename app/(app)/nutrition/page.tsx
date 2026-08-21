@@ -6,7 +6,6 @@ import { getCalorieNeeds } from "@/app/lib/data/food";
 import { getCurrentUser } from "@/app/lib/data/user";
 import { redirect } from "next/navigation";
 
-
 export default async function NutritionPage({
   searchParams
 }: {
@@ -14,79 +13,47 @@ export default async function NutritionPage({
     date?: string
   }>
 }) {
-
-  const user = await getCurrentUser() 
+  const user = await getCurrentUser();
   const params = await searchParams;
 
-
-  if(!user){
-    redirect("/login")
+  if (!user) {
+    redirect("/login");
   }
 
-  const dailyTargets = await getCalorieNeeds(user.id)
+  const dailyTargets = await getCalorieNeeds(user.id);
 
   const selectedDate =
     params.date ??
     new Date().toISOString().split("T")[0];
 
+  const meals = await getMeals(selectedDate);
 
-  const meals = await getMeals(selectedDate)
-
-  
   return (
-
-    <div className="min-h-screen bg-background text-text">
-
-
-      <div className="flex min-h-screen">
-
-
-
-
-
-        <main className="mx-auto flex-1 max-w-6xl p-5 pb-28 lg:p-8">
-
-
+    <div className="min-h-screen w-full overflow-x-hidden bg-background text-text">
+      <div className="flex min-h-screen w-full">
+        {/* min-w-0 sprečava flex child da probije širinu roditelja */}
+        <main className="mx-auto w-full max-w-6xl min-w-0 p-4 pb-28 sm:p-6 lg:p-8">
           <header className="space-y-6">
-
-
             <div>
-
-              <h1 className="text-3xl font-bold">
+              <h1 className="text-2xl font-bold sm:text-3xl">
                 Nutrition
               </h1>
-
-
-              <p className="text-text-secondary">
+              <p className="text-sm text-text-secondary sm:text-base">
                 Track calories, macros and meals.
               </p>
-
             </div>
 
-
             {/* Date selector */}
-
             <DateSelector />
-
-
           </header>
-
 
           <MealsSection 
             initialMeals={meals}
             selectedDate={selectedDate}
             dailyTargets={dailyTargets}
           />
-
-
-
         </main>
-
-
       </div>
-
-
     </div>
-
   );
 }
