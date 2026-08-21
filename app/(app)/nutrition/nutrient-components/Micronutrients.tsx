@@ -8,7 +8,7 @@ export default function Micronutrients({
   maxHeight?: number | null;
 }) {
   // Oduzimamo visinu naslova i margina (~40px) da lista stane tačno unutar izmerenog prostora
-  const listMaxHeight = maxHeight ? `${maxHeight - 40}px` : "380px";
+  const listMaxHeight = maxHeight ? `${maxHeight - 40}px` : "360px";
 
   return (
     <section className="flex w-full min-w-0 flex-col">
@@ -31,7 +31,15 @@ export default function Micronutrients({
               <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex min-w-0 flex-1 items-baseline justify-between gap-2 sm:justify-start">
                   <p className="truncate text-xs font-medium sm:text-sm">
-                    {micro.name}
+                    {
+                      micro.name.includes("_") ? 
+                        String(micro.name)
+                          .split("_")
+                          .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+                          .join(" ")
+                        : micro.name.charAt(0).toUpperCase() + micro.name.slice(1).toLowerCase()
+                      
+                    }
                   </p>
                   <span className="shrink-0 text-xs text-text-secondary">
                     {micro.value} / {micro.daily_target} {micro.unit}

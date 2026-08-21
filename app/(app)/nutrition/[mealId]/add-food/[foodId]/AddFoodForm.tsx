@@ -216,23 +216,26 @@ export default function AddFoodForm({
 
 
         {/* Calories */}
-
-        <Macronutrients 
-            dailyTotals={dailyTotals}
-            caloriePercent={calsAndMacros.caloriePercent}
-            macros={macros}
-            calorieGoal={Number((dailyTargets.calorie_expenditure).toFixed(1))}
-        />
+        <div className="mt-6">
+            <Macronutrients 
+                dailyTotals={dailyTotals}
+                caloriePercent={calsAndMacros.caloriePercent}
+                macros={macros}
+                calorieGoal={Number((dailyTargets.calorie_expenditure).toFixed(1))}
+            />
+        </div>
+        
 
 
       
         {/* MICRONUTRIENTS */}
 
+        <div className="mt-6 mb-2">
 
-        <Micronutrients 
-            micros={micros}
-        />
-
+            <Micronutrients 
+                micros={micros}
+            />
+        </div>
 
         <SubmitButton
             pendingText="Adding..."

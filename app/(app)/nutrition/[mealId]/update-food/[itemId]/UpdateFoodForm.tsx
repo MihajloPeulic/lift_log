@@ -236,14 +236,14 @@ export default function UpdateFoodForm({
 
 
 
-
-        <Macronutrients 
-            dailyTotals={dailyTotals}
-            caloriePercent={calsAndMacros.caloriePercent}
-            macros={calsAndMacros.macros}
-            calorieGoal={Number((dailyTargets.calorie_expenditure).toFixed(1))}
-        />
-
+        <div className="mt-6">
+            <Macronutrients 
+                dailyTotals={dailyTotals}
+                caloriePercent={calsAndMacros.caloriePercent}
+                macros={calsAndMacros.macros}
+                calorieGoal={Number((dailyTargets.calorie_expenditure).toFixed(1))}
+            />
+        </div>
 
         
 
@@ -258,10 +258,11 @@ export default function UpdateFoodForm({
 
         
 
-
-        <Micronutrients 
-            micros={micros}
-        />
+        <div className="mt-6 mb-2">
+            <Micronutrients 
+                micros={micros}
+            />
+        </div>
         
 
 

@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { calculateFoodNutrition, calculateMealNutrition } from "@/app/lib/data/calculateNutrition";
 import { Tooltip } from "@/components/Tooltip";
-import { useState } from "react";
+import { useState, useEffect } from "react"; // 1. Dodat useEffect
 import { deleteMeal } from "@/app/actions/nutrition";
 
 export default function MealsList({
@@ -15,6 +15,19 @@ export default function MealsList({
 }) {
   const [openMealId, setOpenMealId] = useState<string | null>(null);
   const [deletingMealId, setDeletingMealId] = useState<string | null>(null);
+
+  // 2. Logika za zatvaranje na klik izvan
+  useEffect(() => {
+    const closeDropdown = () => setOpenMealId(null);
+    
+    if (openMealId) {
+      document.addEventListener("click", closeDropdown);
+    }
+    
+    return () => {
+      document.removeEventListener("click", closeDropdown);
+    };
+  }, [openMealId]);
 
   async function handleDelete(id: string, date: string) {
     await deleteMeal(id, date);
@@ -31,7 +44,6 @@ export default function MealsList({
             key={meal.id}
             className="w-full min-w-0 rounded-card border border-border bg-surface p-4 sm:p-card"
           >
-            {/* Header obroka */}
             <header className="flex items-start justify-between gap-2 sm:items-center">
               <div className="min-w-0 flex-1">
                 <h3 className="truncate text-base font-bold sm:text-lg">
@@ -47,7 +59,6 @@ export default function MealsList({
                 </p>
               </div>
 
-              {/* Akcije */}
               <div className="flex shrink-0 items-center gap-1 sm:gap-2">
                 <Tooltip text="Add Food">
                   <Link
@@ -58,26 +69,28 @@ export default function MealsList({
                   </Link>
                 </Tooltip>
 
-                <div className="relative">
-                  <Tooltip text="More options">
+                <div className="relative z-10">
+                  <Tooltip text={openMealId === meal.id ? "" : "More options"}>
                     <button
-                      onClick={() =>
-                        setOpenMealId(openMealId === meal.id ? null : meal.id)
-                      }
-                      className="flex h-9 w-9 items-center justify-center rounded-button text-text-secondary hover:bg-background sm:h-10 sm:w-10"
+                      onClick={(e) => {
+                        e.stopPropagation(); // 3. OVO SPREČAVA DA SE MENI ODMAH ZATVORI
+                        setOpenMealId(openMealId === meal.id ? null : meal.id);
+                      }}
+                      className="cursor-pointer flex h-9 w-9 items-center justify-center rounded-button text-text-secondary hover:bg-background sm:h-10 sm:w-10"
                     >
                       <span className="text-xl leading-none sm:text-2xl">⋮</span>
                     </button>
                   </Tooltip>
 
                   {openMealId === meal.id && (
-                    <div className="absolute right-0 top-full z-50 mt-2 w-36 rounded-card border border-border bg-surface shadow-lg sm:w-40">
+                    <div className="absolute right-0 top-full z-50 mt-2 w-36 overflow-hidden rounded-card border border-border bg-surface p-1 shadow-lg sm:w-40">
                       <button
-                        onClick={() => {
+                        onClick={(e) => {
+                          e.stopPropagation(); // (Opciono) sprečava da dokument registruje klik ako sami zatvaramo
                           setOpenMealId(null);
                           setDeletingMealId(meal.id);
                         }}
-                        className="w-full px-4 py-2 text-left text-sm text-red-500 hover:bg-background"
+                        className="w-full cursor-pointer rounded-button px-3.5 py-2 text-left text-sm text-red-500 transition-colors hover:bg-background"
                       >
                         Delete
                       </button>
@@ -87,7 +100,6 @@ export default function MealsList({
               </div>
             </header>
 
-            {/* Lista hrane unutar obroka */}
             <div className="mt-4 space-y-2.5 sm:mt-5 sm:space-y-3">
               {meal.meal_items?.length > 0 ? (
                 meal.meal_items.map((item: any) => {
@@ -127,7 +139,6 @@ export default function MealsList({
               )}
             </div>
 
-            {/* Delete Modal */}
             {deletingMealId === meal.id && (
               <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
                 <div className="w-full max-w-sm rounded-card border border-border bg-surface p-6">
@@ -138,13 +149,13 @@ export default function MealsList({
                   <div className="mt-6 flex justify-end gap-3">
                     <button
                       onClick={() => setDeletingMealId(null)}
-                      className="rounded-button px-4 py-2 text-sm hover:bg-background"
+                      className="cursor-pointer rounded-button px-4 py-2 text-sm transition hover:bg-background"
                     >
                       Cancel
                     </button>
                     <button
                       onClick={() => handleDelete(meal.id, selectedDate)}
-                      className="rounded-button bg-red-500 px-4 py-2 text-sm text-white hover:bg-red-600"
+                      className="cursor-pointer rounded-button bg-red-500 px-4 py-2 text-sm text-white transition hover:bg-red-600"
                     >
                       Delete
                     </button>

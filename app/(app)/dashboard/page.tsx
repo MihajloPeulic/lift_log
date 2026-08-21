@@ -52,7 +52,7 @@ export default async function DashboardPage() {
 
     return (
 
-        <div className="min-h-screen bg-background text-text">
+        <div className="min-h-screen text-text">
 
 
             <nav className="

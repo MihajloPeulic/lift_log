@@ -35,9 +35,11 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full overflow-x-hidden antialiased`}
     >
       {/* 2. DODATE OVERFLOW I WIDTH KLASE NA BODY */}
-      <body className="flex min-h-full w-full flex-col overflow-x-hidden bg-background text-text">
+      <body className="flex min-h-full w-full flex-col overflow-x-hidden text-text">
         {children}
       </body>
+
+      
     </html>
   );
 }

@@ -6,7 +6,7 @@ export default function LoginPage() {
 
   return (
 
-    <main className="min-h-screen bg-background text-text flex items-center justify-center px-4">
+    <main className="min-h-screen  text-text flex items-center justify-center px-4">
 
 
       <section

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Scale, Trophy, Plus, Minus, Flame, Check, ArrowLeft } from "lucide-react";
 import { CalorieNeeds } from "@/app/types/food";
 import { setWeightGoals } from "@/app/actions/nutrition";
+import BackButton from "@/components/BackButton";
 
 export default function EditWeightGoal(
   {
@@ -140,8 +141,7 @@ export default function EditWeightGoal(
 const energyTarget = calculateEnergyTarget();
 
   return (
-    <div className="min-h-screen bg-background text-text p-4 md:p-8">
-      <form action={setWeightGoals} className="mx-auto max-w-2xl space-y-6">
+      <form action={setWeightGoals} className="mt-3 mx-auto max-w-2xl space-y-6">
 
         <input 
           type="hidden" 
@@ -160,14 +160,7 @@ const energyTarget = calculateEnergyTarget();
           value={energyTarget}
           name="energyTarget"
           />
-        {/* Dugme za povratak */}
-        <Link
-          href={"/profile"}
-          className="inline-flex items-center gap-2 text-sm font-medium text-text-secondary hover:text-text transition cursor-pointer"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          <span>Back to Profile</span>
-        </Link>
+        
 
         {/* Zaglavlje - Trenutni cilj */}
         <header className="flex items-center justify-between rounded-card border border-border bg-surface p-card shadow-card">
@@ -404,6 +397,5 @@ const energyTarget = calculateEnergyTarget();
         )}
         
       </form>
-    </div>
   );
 }

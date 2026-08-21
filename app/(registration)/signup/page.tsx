@@ -19,7 +19,7 @@ export default async function SignupPage({
 
   return (
 
-    <main className="min-h-screen bg-background text-text flex items-center justify-center px-4 py-8">
+    <main className="min-h-screen text-text flex items-center justify-center px-4 py-8">
 
 
       <section

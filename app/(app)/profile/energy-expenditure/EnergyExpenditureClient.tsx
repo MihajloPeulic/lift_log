@@ -37,53 +37,16 @@ export default function EnergyExpenditureClient({
 
 
     return (
-        <>
-
-        
-        <div
-            className="
-                min-h-screen
-                bg-background
-                p-6
-            "
-        >
-
-            <div
-                className="
-                    mx-auto
-                    max-w-2xl
-                "
-            >
-
-
-                <Link
-                    href="/profile"
-                    className="
-                        mb-8
-                        flex
-                        items-center
-                        gap-2
-                        text-text-secondary
-                        hover:text-foreground
-                    "
-                >
-                    <span className="text-2xl">
-                        ←
-                    </span>
-
-                    Back
-                </Link>
-
-
-
+    
 
                 <div
                     className="
+                        mt-3
                         rounded-card
                         border
                         border-border
                         bg-surface
-                        p-6
+                        p-card
                     "
                 >
 
@@ -363,10 +326,5 @@ export default function EnergyExpenditureClient({
                 </div>
 
 
-            </div>
-
-
-        </div>
-        </>
     )
 }

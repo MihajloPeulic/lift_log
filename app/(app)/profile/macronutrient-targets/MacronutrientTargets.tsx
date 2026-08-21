@@ -57,61 +57,11 @@ export default function EditMacronutrientTargets(
 
 
     return (
-        <>
         
-
-
-            {/* POPUP */}
-
-
-
-    <div
-        className="
-            fixed
-            inset-0
-            z-50
-            overflow-y-auto
-            bg-background
-        "
-    >
-
-        <div
-            className="
-                mx-auto
-                min-h-screen
-                w-full
-                max-w-2xl
-                px-6
-                py-8
-            "
-        >
-
-            <Link
-                href={"/profile"}
-                className="
-                    flex
-                    items-center
-                    gap-2
-                    text-secondary
-                    hover:text-foreground
-                    cursor-pointer
-                "
-            >
-                <span className="text-2xl">
-                    ←
-                </span>
-
-                <span>
-                    Back
-                </span>
-
-            </Link>
-
-
             <div
                 className="
-                    mt-10
-                    space-y-8
+                    mt-3
+                    space-y-6
                     pb-10
                 "
             >
@@ -123,7 +73,7 @@ export default function EditMacronutrientTargets(
                         border
                         border-border
                         bg-surface
-                        p-6
+                        p-card
                     ">
 
                         <p className="text-sm text-secondary">
@@ -254,7 +204,7 @@ export default function EditMacronutrientTargets(
                         border
                         border-border
                         bg-surface
-                        p-6
+                        p-card
                     ">
 
                         <h2 className="text-xl font-bold">
@@ -637,7 +587,7 @@ export default function EditMacronutrientTargets(
                     border
                     border-border
                     bg-surface
-                    p-6
+                    p-card
                 ">
 
 
@@ -726,7 +676,7 @@ export default function EditMacronutrientTargets(
                                     border
                                     border-border
                                     bg-surface
-                                    p-6
+                                    p-card
                                     shadow-xl
                                 "
                             >
@@ -848,12 +798,6 @@ export default function EditMacronutrientTargets(
 
                         </div>
 
-        </div>
-
-    </div>
-
-
-</>
 )
 
 }

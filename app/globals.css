@@ -84,13 +84,24 @@
 
 
 body {
-
-  background: var(--color-background);
-
+  background-color: var(--color-background);
+  
+  background-image: 
+    /* 1. Glavno svetlo (Key Light) - Dolazi blago iz gornjeg levog ugla, malo šire i jače */
+    radial-gradient(circle at 15% 0%, rgba(255, 255, 255, 0.07) 0%, transparent 50%),
+    
+    /* 2. Dopunsko svetlo (Fill Light) - Dolazi iz gornjeg desnog ugla, mekše je i slabije */
+    radial-gradient(circle at 85% 5%, rgba(255, 255, 255, 0.035) 0%, transparent 40%),
+    
+    /* 3. Donje svetlo (Rim/Ambient Light) - Suptilno izbija sa samog dna ekrana */
+    radial-gradient(ellipse at 50% 110%, rgba(255, 255, 255, 0.03) 0%, transparent 50%);
+    
+  /* Fiksiramo svetla da stoje na mestu dok korisnik skrola sadržaj */
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  
   color: var(--color-text);
-
   font-family: var(--font-sans);
-
 }
 
 @layer utilities {

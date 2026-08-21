@@ -29,7 +29,7 @@ export default async function NutritionPage({
   const meals = await getMeals(selectedDate);
 
   return (
-    <div className="min-h-screen w-full overflow-x-hidden bg-background text-text">
+    <div className="min-h-screen w-full overflow-x-hidden text-text">
       <div className="flex min-h-screen w-full">
         {/* min-w-0 sprečava flex child da probije širinu roditelja */}
         <main className="mx-auto w-full max-w-6xl min-w-0 p-4 pb-28 sm:p-6 lg:p-8">

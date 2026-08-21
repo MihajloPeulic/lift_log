@@ -1,5 +1,6 @@
 import EditBodyStats from "./EditBodysStats";
 import { getCurrentUserWithProfile } from "@/app/lib/data/user";
+import BackButton from "@/components/BackButton";
 import {redirect} from "next/navigation"
 
 
@@ -47,17 +48,33 @@ export default async function BodyStats() {
 
 
     return(
-        <>
+        <div
+            className="
+                min-h-screen
+                p-4 md:p-8
+            "
+        >
+          <div
+              className="
+                  mx-auto
+                  max-w-2xl
+                  space-y-6
+              "
+          >
 
-        <EditBodyStats
-                          bodyweight={bodyweight}
-                          height={height}
-                          unit_system={profile.unit_system}
-                          date_of_birth={profile.date_of_birth}
-                          bodyFat={profile.body_fat}
-                          gender={profile.gender}
-                      ></EditBodyStats>
-        </>
+          <BackButton href={"/profile"}></BackButton>
+          
+            <EditBodyStats
+                bodyweight={bodyweight}
+                height={height}
+                unit_system={profile.unit_system}
+                date_of_birth={profile.date_of_birth}
+                bodyFat={profile.body_fat}
+                gender={profile.gender}
+            />
+
+        </div>
+      </div>
 
     )
 }
