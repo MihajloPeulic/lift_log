@@ -2,23 +2,17 @@ import { Food, NutritionTotals } from "@/app/types/food";
 import { calculateMealNutrition } from "../data/calculateNutrition";
 import { micronutrientTargets } from "@/app/constants/nutrition";
 
-
 export function CalculateDailyNutrition(
     meals: any[] | null, 
     food: Food | null, 
     multiplier : number | null
 ) {
-    
-
-    if(meals){
-            const dailyTotals = meals.reduce(
-        
+    if (meals) {
+        const dailyTotals = meals.reduce(
             (total, meal) => {
-        
                 const mealTotals = calculateMealNutrition(
                     meal.meal_items ?? []
                 );
-        
         
                 return {
                     calories: total.calories + mealTotals.calories,
@@ -64,177 +58,136 @@ export function CalculateDailyNutrition(
                     omega_3: total.omega_3 + mealTotals.omega_3,
                     omega_6: total.omega_6 + mealTotals.omega_6,
                 };
-        
             },
-        
             {
-                calories: 0,
-                protein: 0,
-                carbs: 0,
-                fat: 0,
-        
-                fiber: 0,
-                sugar: 0,
-                sodium: 0,
-                cholesterol: 0,
-        
-                vitamin_a: 0,
-                vitamin_c: 0,
-                vitamin_d: 0,
-                vitamin_e: 0,
-                vitamin_k: 0,
-        
-                vitamin_b1: 0,
-                vitamin_b2: 0,
-                vitamin_b3: 0,
-                vitamin_b5: 0,
-                vitamin_b6: 0,
-                vitamin_b7: 0,
-                vitamin_b9: 0,
-                vitamin_b12: 0,
-        
-                calcium: 0,
-                iron: 0,
-                magnesium: 0,
-                phosphorus: 0,
-                potassium: 0,
-                zinc: 0,
-                copper: 0,
-                manganese: 0,
-                selenium: 0,
-        
-                iodine: 0,
-                chromium: 0,
-                molybdenum: 0,
-                choline: 0,
-        
-                omega_3: 0,
-                omega_6: 0,
+                calories: 0, protein: 0, carbs: 0, fat: 0,
+                fiber: 0, sugar: 0, sodium: 0, cholesterol: 0,
+                vitamin_a: 0, vitamin_c: 0, vitamin_d: 0, vitamin_e: 0, vitamin_k: 0,
+                vitamin_b1: 0, vitamin_b2: 0, vitamin_b3: 0, vitamin_b5: 0, vitamin_b6: 0, vitamin_b7: 0, vitamin_b9: 0, vitamin_b12: 0,
+                calcium: 0, iron: 0, magnesium: 0, phosphorus: 0, potassium: 0, zinc: 0, copper: 0, manganese: 0, selenium: 0,
+                iodine: 0, chromium: 0, molybdenum: 0, choline: 0,
+                omega_3: 0, omega_6: 0,
             }
-        
         );
-
-        return dailyTotals
-
+        return dailyTotals;
     } 
     
-    if(food && multiplier) {
-            const dailyTotals = {
-            calories: Number((food.calories * multiplier).toFixed(1)),
-            protein: Number((food.protein * multiplier).toFixed(1)),
-            carbs: Number((food.carbs * multiplier).toFixed(1)),
-            fat: Number((food.fat * multiplier).toFixed(1)),
-
-            fiber: Number((food.fiber * multiplier).toFixed(2)),
-            sugar: Number((food.sugar * multiplier).toFixed(2)),
-            sodium: Number((food.sodium * multiplier).toFixed(2)),
-            cholesterol: Number((food.cholesterol * multiplier).toFixed(2)),
-
-            vitamin_a: Number((food.vitamin_a * multiplier).toFixed(4)),
-            vitamin_c: Number((food.vitamin_c * multiplier).toFixed(2)),
-            vitamin_d: Number((food.vitamin_d * multiplier).toFixed(4)),
-            vitamin_e: Number((food.vitamin_e * multiplier).toFixed(2)),
-            vitamin_k: Number((food.vitamin_k * multiplier).toFixed(4)),
-
-            vitamin_b1: Number((food.vitamin_b1 * multiplier).toFixed(3)),
-            vitamin_b2: Number((food.vitamin_b2 * multiplier).toFixed(3)),
-            vitamin_b3: Number((food.vitamin_b3 * multiplier).toFixed(2)),
-            vitamin_b5: Number((food.vitamin_b5 * multiplier).toFixed(2)),
-            vitamin_b6: Number((food.vitamin_b6 * multiplier).toFixed(3)),
-            vitamin_b7: Number((food.vitamin_b7 * multiplier).toFixed(4)),
-            vitamin_b9: Number((food.vitamin_b9 * multiplier).toFixed(4)),
-            vitamin_b12: Number((food.vitamin_b12 * multiplier).toFixed(4)),
-
-            calcium: Number((food.calcium * multiplier).toFixed(2)),
-            iron: Number((food.iron * multiplier).toFixed(2)),
-            magnesium: Number((food.magnesium * multiplier).toFixed(2)),
-            phosphorus: Number((food.phosphorus * multiplier).toFixed(2)),
-            potassium: Number((food.potassium * multiplier).toFixed(2)),
-            zinc: Number((food.zinc * multiplier).toFixed(2)),
-            copper: Number((food.copper * multiplier).toFixed(3)),
-            manganese: Number((food.manganese * multiplier).toFixed(3)),
-            selenium: Number((food.selenium * multiplier).toFixed(4)),
-
-            iodine: Number((food.iodine * multiplier).toFixed(4)),
-            chromium: Number((food.chromium * multiplier).toFixed(4)),
-            molybdenum: Number((food.molybdenum * multiplier).toFixed(4)),
-            choline: Number((food.choline * multiplier).toFixed(2)),
-
-            omega_3: Number((food.omega_3 * multiplier).toFixed(3)),
-            omega_6: Number((food.omega_6 * multiplier).toFixed(3)),
-        };
-
-        return dailyTotals
-    }
-    
-}
-
-
-
-
-export function CalculateMicros(dailyTotals: any) {
-    const micros = Object.entries(micronutrientTargets).map(
-    ([name, target]) => {
-
-        const current =
-            dailyTotals[name as keyof NutritionTotals] ?? 0;
+    // Provjeravamo da li je food prisutan, a multiplier tretiramo bezbjedno (ako je null/0, biće 0)
+    if (food) {
+        const mult = multiplier ?? 0;
 
         return {
-            name,
+            calories: Number(((food.calories ?? 0) * mult).toFixed(1)),
+            protein: Number(((food.protein ?? 0) * mult).toFixed(1)),
+            carbs: Number(((food.carbs ?? 0) * mult).toFixed(1)),
+            fat: Number(((food.fat ?? 0) * mult).toFixed(1)),
 
-            daily_target: target.value * target.multiplier,
+            fiber: Number(((food.fiber ?? 0) * mult).toFixed(2)),
+            sugar: Number(((food.sugar ?? 0) * mult).toFixed(2)),
+            sodium: Number(((food.sodium ?? 0) * mult).toFixed(2)),
+            cholesterol: Number(((food.cholesterol ?? 0) * mult).toFixed(2)),
 
-            unit: target.unit,
+            vitamin_a: Number(((food.vitamin_a ?? 0) * mult).toFixed(4)),
+            vitamin_c: Number(((food.vitamin_c ?? 0) * mult).toFixed(2)),
+            vitamin_d: Number(((food.vitamin_d ?? 0) * mult).toFixed(4)),
+            vitamin_e: Number(((food.vitamin_e ?? 0) * mult).toFixed(2)),
+            vitamin_k: Number(((food.vitamin_k ?? 0) * mult).toFixed(4)),
 
-            value: Number(
-                (current * target.multiplier).toFixed(2)
-            ),
+            vitamin_b1: Number(((food.vitamin_b1 ?? 0) * mult).toFixed(3)),
+            vitamin_b2: Number(((food.vitamin_b2 ?? 0) * mult).toFixed(3)),
+            vitamin_b3: Number(((food.vitamin_b3 ?? 0) * mult).toFixed(2)),
+            vitamin_b5: Number(((food.vitamin_b5 ?? 0) * mult).toFixed(2)),
+            vitamin_b6: Number(((food.vitamin_b6 ?? 0) * mult).toFixed(3)),
+            vitamin_b7: Number(((food.vitamin_b7 ?? 0) * mult).toFixed(4)),
+            vitamin_b9: Number(((food.vitamin_b9 ?? 0) * mult).toFixed(4)),
+            vitamin_b12: Number(((food.vitamin_b12 ?? 0) * mult).toFixed(4)),
 
-            percent: current === 0
-                ? 0
-                : Math.round(
-                    (current / target.value) * 100
-                )
-                };
-            }
-        );
+            calcium: Number(((food.calcium ?? 0) * mult).toFixed(2)),
+            iron: Number(((food.iron ?? 0) * mult).toFixed(2)),
+            magnesium: Number(((food.magnesium ?? 0) * mult).toFixed(2)),
+            phosphorus: Number(((food.phosphorus ?? 0) * mult).toFixed(2)),
+            potassium: Number(((food.potassium ?? 0) * mult).toFixed(2)),
+            zinc: Number(((food.zinc ?? 0) * mult).toFixed(2)),
+            copper: Number(((food.copper ?? 0) * mult).toFixed(3)),
+            manganese: Number(((food.manganese ?? 0) * mult).toFixed(3)),
+            selenium: Number(((food.selenium ?? 0) * mult).toFixed(4)),
 
-    return micros
+            iodine: Number(((food.iodine ?? 0) * mult).toFixed(4)),
+            chromium: Number(((food.chromium ?? 0) * mult).toFixed(4)),
+            molybdenum: Number(((food.molybdenum ?? 0) * mult).toFixed(4)),
+            choline: Number(((food.choline ?? 0) * mult).toFixed(2)),
+
+            omega_3: Number(((food.omega_3 ?? 0) * mult).toFixed(3)),
+            omega_6: Number(((food.omega_6 ?? 0) * mult).toFixed(3)),
+        };
+    }
+
+    // Siguran povratni objekat sa nulama ako ništa od gore nije proslijeđeno
+    return {
+        calories: 0, protein: 0, carbs: 0, fat: 0,
+        fiber: 0, sugar: 0, sodium: 0, cholesterol: 0,
+        vitamin_a: 0, vitamin_c: 0, vitamin_d: 0, vitamin_e: 0, vitamin_k: 0,
+        vitamin_b1: 0, vitamin_b2: 0, vitamin_b3: 0, vitamin_b5: 0, vitamin_b6: 0, vitamin_b7: 0, vitamin_b9: 0, vitamin_b12: 0,
+        calcium: 0, iron: 0, magnesium: 0, phosphorus: 0, potassium: 0, zinc: 0, copper: 0, manganese: 0, selenium: 0,
+        iodine: 0, chromium: 0, molybdenum: 0, choline: 0,
+        omega_3: 0, omega_6: 0,
+    };
 }
 
+export function CalculateMicros(dailyTotals: any) {
+    const totals = dailyTotals || {};
+    const micros = Object.entries(micronutrientTargets).map(
+        ([name, target]) => {
+            const current = totals[name as keyof NutritionTotals] ?? 0;
 
+            return {
+                name,
+                daily_target: target.value * target.multiplier,
+                unit: target.unit,
+                value: Number((current * target.multiplier).toFixed(2)),
+                percent: current === 0 ? 0 : Math.round((current / target.value) * 100)
+            };
+        }
+    );
 
-export function CalculateCaloriesAndMacros(dailyTargets: any, dailyTotals:any){
+    return micros;
+}
 
-    const cal_exp = dailyTargets.custom_calorie_target !== null ? dailyTargets.custom_calorie_target : dailyTargets.calorie_expenditure
-    //ukupne vrijednosti koje treba hitati
+export function CalculateCaloriesAndMacros(dailyTargets: any, dailyTotals: any) {
+    const targets = dailyTargets || {};
+    const totals = dailyTotals || { calories: 0, protein: 0, fat: 0, carbs: 0 };
+
+    const cal_exp = targets.custom_calorie_target !== null && targets.custom_calorie_target !== undefined 
+        ? targets.custom_calorie_target 
+        : (targets.calorie_expenditure ?? 2000);
+
     const calorieGoal = Number(cal_exp.toFixed(1));
-    const dailyProtein = Number(dailyTargets.protein_needs.toFixed(1))
-    const dailyFat = Number(dailyTargets.fat_needs.toFixed(1))
-    const dailyCarbs = Number(dailyTargets.carbs_needs.toFixed(1))
+    const dailyProtein = Number((targets.protein_needs ?? 0).toFixed(1));
+    const dailyFat = Number((targets.fat_needs ?? 0).toFixed(1));
+    const dailyCarbs = Number((targets.carbs_needs ?? 0).toFixed(1));
 
-    const caloriePercent = Math.round((dailyTotals.calories/calorieGoal)*100)
+    const caloriePercent = calorieGoal === 0 ? 0 : Math.round((totals.calories / calorieGoal) * 100);
 
-     const macros = [
+    const macros = [
         {
             name: "Protein",
             daily_target: dailyProtein,
-            percent: dailyTotals.protein === 0 ? 0 : Math.round((dailyTotals.protein/dailyProtein)*100),
-            value: Number(dailyTotals.protein.toFixed(1))
+            percent: dailyProtein === 0 ? 0 : Math.round((totals.protein / dailyProtein) * 100),
+            value: Number((totals.protein ?? 0).toFixed(1))
         },
         {
             name: "Fat",
             daily_target: dailyFat,
-            percent: dailyTotals.fat === 0 ? 0 : Math.round((dailyTotals.fat/dailyFat)*100),
-            value: Number(dailyTotals.fat.toFixed(1))
+            percent: dailyFat === 0 ? 0 : Math.round((totals.fat / dailyFat) * 100),
+            value: Number((totals.fat ?? 0).toFixed(1))
         },
         {
             name: "Carbs",
             daily_target: dailyCarbs,
-            percent: dailyTotals.carbs === 0 ? 0 : Math.round((dailyTotals.carbs/dailyCarbs)*100),
-            value: Number(dailyTotals.carbs.toFixed(1))
+            percent: dailyCarbs === 0 ? 0 : Math.round((totals.carbs / dailyCarbs) * 100),
+            value: Number((totals.carbs ?? 0).toFixed(1))
         }
-    ]
+    ];
 
     return {
         "calorieGoal": calorieGoal,
@@ -243,5 +196,5 @@ export function CalculateCaloriesAndMacros(dailyTargets: any, dailyTotals:any){
         "dailyCarbs": dailyCarbs,
         "caloriePercent": caloriePercent,
         "macros": macros
-    }
+    };
 }

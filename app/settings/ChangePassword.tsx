@@ -1,39 +1,61 @@
 "use client";
 
 import { useState } from "react";
-import { Lock, ArrowLeft, X } from "lucide-react";
+import { Lock, Loader2 } from "lucide-react";
+import { changePassword } from "../actions/updateProfile";
+// Ovdje importuj svoju server akciju, npr:
+// import { changePasswordAction } from "../actions/updateProfile";
 
 export default function ChangePassword() {
   const [open, setOpen] = useState(false);
-  const [step, setStep] = useState(1);
-
-  const [oldPassword, setOldPassword] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   function closeModal() {
     setOpen(false);
-    setStep(1);
-    setOldPassword("");
-    setPassword("");
-    setConfirmPassword("");
+    setError("");
+    setSuccessMessage("");
+    setLoading(false);
   }
 
-  function handleNext() {
-    if (!oldPassword) return;
+  async function handleSubmit(formData: FormData) {
+    setError("");
+    setSuccessMessage("");
 
-    setStep(2);
-  }
+    const currentPassword = formData.get("currentPassword") as string;
+    const newPassword = formData.get("newPassword") as string;
+    const confirmPassword = formData.get("confirmedPassword") as string;
 
-  function handleSave() {
-    if (password !== confirmPassword) {
-      alert("Passwords do not match");
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      setError("Please fill in all fields.");
       return;
     }
 
-    // ovdje ide server action / supabase update password
+    if (newPassword !== confirmPassword) {
+      setError("New passwords do not match.");
+      return;
+    }
 
-    closeModal();
+    if (String(newPassword).length < 6) {
+      setError("New password must be at least 6 characters long.");
+      return;
+    }
+
+    setLoading(true);
+
+    const res = await changePassword(currentPassword, newPassword, confirmPassword)
+
+    if(res?.error){
+      setError(res.error)
+    }
+
+    if(res?.success){
+      setSuccessMessage(res.success)
+    }
+
+    setLoading(false);
+
   }
 
   return (
@@ -51,27 +73,22 @@ export default function ChangePassword() {
             py-3
             text-left
             hover:text-primary
+            transition-colors
         "
-        >
-  <div className="flex items-center gap-2">
-    <Lock className="h-4 w-4 text-primary" />
+      >
+        <div className="flex items-center gap-2">
+          <Lock className="h-4 w-4 text-primary shrink-0" />
+          <span className="text-sm font-medium">
+            Change password
+          </span>
+        </div>
 
-    <span className="text-sm font-medium">
-      Change password
-    </span>
-  </div>
+        <span className="text-lg">
+          →
+        </span>
+      </button>
 
-
-
-    <span className="text-lg">
-      →
-    </span>
-  
-
-</button>
-
-
-      {/* Modal */}
+      {/* Modal - Responzivan */}
       {open && (
         <div
           className="
@@ -81,7 +98,9 @@ export default function ChangePassword() {
             flex
             items-center
             justify-center
-            bg-black/50
+            bg-black/60
+            p-4
+            backdrop-blur-xs
           "
         >
           <div
@@ -92,192 +111,166 @@ export default function ChangePassword() {
               border
               border-border
               bg-surface
-              p-6
+              p-5
+              sm:p-6
+              shadow-2xl
             "
           >
-
             {/* Header */}
             <div className="mb-5 flex items-center justify-between">
-              <h2 className="text-lg font-semibold">
+              <h2 className="text-lg font-semibold tracking-tight">
                 Change password
               </h2>
-
-              <button onClick={closeModal}>
-                <X className="h-5 w-5" />
-              </button>
             </div>
 
-
-            {/* Step 1 */}
-            {step === 1 && (
-              <div className="space-y-5">
-
-                <div>
-                  <label className="text-sm font-medium">
-                    Current password
-                  </label>
-
-                  <input
-                    type="password"
-                    value={oldPassword}
-                    onChange={(e) =>
-                      setOldPassword(e.target.value)
-                    }
-                    className="
-                      mt-2
-                      w-full
-                      rounded-button
-                      border
-                      border-border
-                      bg-background
-                      px-3
-                      py-2
-                      outline-none
-                      focus:border-primary
-                    "
-                  />
-                </div>
-
-
-                <div className="flex justify-end gap-3">
-
-                  <button
-                    type="button"
-                    onClick={closeModal}
-                    className="
-                      rounded-button
-                      border
-                      border-border
-                      px-4
-                      py-2
-                      cursor-pointer
-                    "
-                  >
-                    Cancel
-                  </button>
-
-
-                  <button
-                    onClick={handleNext}
-                    type="button"
-                    className="
-                      rounded-button
-                      bg-primary
-                      px-4
-                      py-2
-                      text-black
-                      cursor-pointer
-                    "
-                  >
-                    Next
-                  </button>
-
-                </div>
-
+            {/* Forma koja poziva akciju */}
+            <form action={handleSubmit} className="space-y-4">
+              <div>
+                <label className="text-sm font-medium">
+                  Current password
+                </label>
+                <input
+                  name="currentPassword"
+                  type="password"
+                  disabled={loading}
+                  className="
+                    mt-1.5
+                    w-full
+                    rounded-button
+                    border
+                    border-border
+                    bg-background
+                    px-3.5
+                    py-2.5
+                    text-sm
+                    outline-none
+                    transition-colors
+                    focus:border-primary
+                    disabled:opacity-50
+                  "
+                  placeholder="••••••••"
+                />
               </div>
-            )}
 
-
-            {/* Step 2 */}
-            {step === 2 && (
-              <div className="space-y-5">
-
-                <div>
-                  <label className="text-sm font-medium">
-                    New password
-                  </label>
-
-                  <input
-                    type="password"
-                    value={password}
-                    onChange={(e) =>
-                      setPassword(e.target.value)
-                    }
-                    className="
-                      mt-2
-                      w-full
-                      rounded-button
-                      border
-                      border-border
-                      bg-background
-                      px-3
-                      py-2
-                      outline-none
-                      focus:border-primary
-                    "
-                  />
-                </div>
-
-
-                <div>
-                  <label className="text-sm font-medium">
-                    Confirm password
-                  </label>
-
-                  <input
-                    type="password"
-                    value={confirmPassword}
-                    onChange={(e) =>
-                      setConfirmPassword(e.target.value)
-                    }
-                    className="
-                      mt-2
-                      w-full
-                      rounded-button
-                      border
-                      border-border
-                      bg-background
-                      px-3
-                      py-2
-                      outline-none
-                      focus:border-primary
-                    "
-                  />
-                </div>
-
-
-                <div className="flex justify-end gap-3">
-
-                  <button
-                    onClick={closeModal}
-                    type="button"
-                    className="
-                        cursor-pointer
-                      rounded-button
-                      border
-                      border-border
-                      px-4
-                      py-2
-                    "
-                  >
-                    Cancel
-                  </button>
-
-
-                  <button
-                    onClick={handleSave}
-                    type="button"
-                    className="
-                        cursor-pointer
-                      rounded-button
-                      bg-primary
-                      px-4
-                      py-2
-                      text-black
-                    "
-                  >
-                    Save
-                  </button>
-
-                </div>
-
+              <div>
+                <label className="text-sm font-medium">
+                  New password
+                </label>
+                <input
+                  name="newPassword"
+                  type="password"
+                  disabled={loading}
+                  className="
+                    mt-1.5
+                    w-full
+                    rounded-button
+                    border
+                    border-border
+                    bg-background
+                    px-3.5
+                    py-2.5
+                    text-sm
+                    outline-none
+                    transition-colors
+                    focus:border-primary
+                    disabled:opacity-50
+                  "
+                  placeholder="••••••••"
+                />
               </div>
-            )}
 
+              <div>
+                <label className="text-sm font-medium">
+                  Confirm new password
+                </label>
+                <input
+                  name="confirmedPassword"
+                  type="password"
+                  disabled={loading}
+                  className="
+                    mt-1.5
+                    w-full
+                    rounded-button
+                    border
+                    border-border
+                    bg-background
+                    px-3.5
+                    py-2.5
+                    text-sm
+                    outline-none
+                    transition-colors
+                    focus:border-primary
+                    disabled:opacity-50
+                  "
+                  placeholder="••••••••"
+                />
+              </div>
+
+              {/* Prikaz greške ili uspjeha unutar modula */}
+              {error && (
+                <div className="rounded-button bg-red-500/10 p-2.5 text-xs text-red-500 border border-red-500/20">
+                  {error}
+                </div>
+              )}
+
+              {successMessage && (
+                <div className="rounded-button bg-green-500/10 p-2.5 text-xs text-green-500 border border-green-500/20">
+                  {successMessage}
+                </div>
+              )}
+
+              {/* Akcioni dugmići */}
+              <div className="flex flex-col-reverse sm:flex-row justify-end gap-2.5 pt-3">
+                <button
+                  type="button"
+                  onClick={closeModal}
+                  disabled={loading}
+                  className="
+                    cursor-pointer
+                    rounded-button
+                    border
+                    border-border
+                    px-4
+                    py-2.5
+                    text-sm
+                    font-medium
+                    hover:bg-background/80
+                    transition-colors
+                    disabled:opacity-50
+                  "
+                >
+                  Cancel
+                </button>
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="
+                    cursor-pointer
+                    flex
+                    items-center
+                    justify-center
+                    gap-2
+                    rounded-button
+                    bg-primary
+                    px-4
+                    py-2.5
+                    text-sm
+                    font-medium
+                    text-black
+                    hover:opacity-90
+                    transition-opacity
+                    disabled:opacity-50
+                  "
+                >
+                  {loading && <Loader2 className="h-4 w-4 animate-spin" />}
+                  <span>Save changes</span>
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
-
     </>
   );
 }

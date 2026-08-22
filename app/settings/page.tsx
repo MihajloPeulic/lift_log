@@ -37,8 +37,8 @@ export default async function SettingsPage() {
           {/* Account */}
           <div className="mt-6 sm:mt-8">
             <EditProfile 
-              email={user.email as string}
-              fullName={profile.full_name} 
+              oldEmail={user.email as string}
+              oldFullName={profile.full_name} 
             />
           </div>
 

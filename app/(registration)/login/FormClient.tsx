@@ -18,11 +18,17 @@ export default function LogInForm() {
     try {
       const result = await logInAction(formData);
 
+      // Ako server akcija vrati objekat sa greškom
       if (result?.error) {
         setError(result.error);
         setLoading(false);
       }
     } catch (err: any) {
+      // Ako je Next.js uradio redirect, on baca grešku koju moramo pustiti dalje da se stranica preusmjeri
+      if (err?.message === "NEXT_REDIRECT" || err?.digest?.startsWith("NEXT_REDIRECT")) {
+        return; 
+      }
+
       setError("Došlo je do neočekivane greške.");
       setLoading(false);
     }

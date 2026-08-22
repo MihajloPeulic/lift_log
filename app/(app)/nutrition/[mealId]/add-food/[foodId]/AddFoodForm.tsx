@@ -23,13 +23,15 @@ export default function AddFoodForm({
   selectedDate: string,
 }) {
 
-  const [amount, setAmount] = useState<number | "">(100);
+  const [amount, setAmount] = useState<number | string>(100);
   const [unit, setUnit] = useState("grams");
   const [unitGrams, setUnitGrams] = useState<number>(1);
 
   const dailyTargets = useNutrition();
 
-  const multiplier = (Number(amount || 0) * unitGrams) / 100;
+  // Sigurno parsiranje amount-a (ako je prazan string, tretiraj ga kao 0)
+  const numericAmount = amount === "" ? 0 : Number(amount);
+  const multiplier = (numericAmount * unitGrams) / 100;
 
   const dailyTotals = CalculateDailyNutrition(null, food, multiplier);
   const micros = CalculateMicros(dailyTotals);
@@ -64,9 +66,12 @@ export default function AddFoodForm({
           <input
             type="number"
             name="amount"
+            min="0"
+            step="any"
             value={amount}
             onChange={(e) => {
               const value = e.target.value;
+              // Dozvoli da polje bude prazno ili broj
               setAmount(value === "" ? "" : Number(value));
             }}
             className="
@@ -138,7 +143,7 @@ export default function AddFoodForm({
           dailyTotals={dailyTotals}
           caloriePercent={calsAndMacros.caloriePercent}
           macros={macros}
-          calorieGoal={Number((dailyTargets.calorie_expenditure).toFixed(1))}
+          calorieGoal={Number((dailyTargets?.calorie_expenditure || 0).toFixed(1))}
         />
       </div>
 

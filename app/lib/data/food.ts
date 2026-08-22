@@ -16,9 +16,10 @@ export async function searchFoods(search: string) {
             protein,
             carbs,
             fat,
-            fiber
+            fiber,
+            category
         `)
-        .ilike("name", `%${search}%`)
+        .ilike("name", `${search}%`)
         .order("name")
         .limit(30);
 

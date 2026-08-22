@@ -2,6 +2,85 @@
 
 import { createServerSupabaseClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
+import { getCurrentUser } from "../lib/data/user";
+
+export async function changeEmail(email: string, oldEmail: string) {
+    const supabase = await createServerSupabaseClient();
+
+    if (email === oldEmail) {
+        return { error: "This email is the same as your current one." };
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email)) {
+      return { error: email + " is not a valid email." };
+    }
+
+
+    const { error } = await supabase.auth.updateUser({
+        email: email
+    });
+
+    if (error) {
+        return { error: (error as any).message };
+    }
+
+    return { success: "Email changed!" };
+}
+
+export async function changeFullName(fullName: string, oldFullName: string) {
+    const supabase = await createServerSupabaseClient();
+
+    if (fullName === oldFullName) {
+        return { error: "This name is the same as your current one" };
+    }
+
+    const fullNameRegex = /^[A-ZŠĐČĆŽ][a-zšđčćž]+(\s[A-ZŠĐČĆŽ][a-zšđčćž]+)+$/;
+
+    if(!fullNameRegex.test(fullName)){
+        return { error: "This is not a real name." };
+    }
+
+    const user = await getCurrentUser()
+
+
+    const { error } = await supabase
+        .from("profiles")
+        .update({
+            full_name: fullName
+        })
+        .eq("id", user.id);
+
+    if (error) {
+        return { error: (error as any).message };
+    }
+
+    return { success: "Full Name changed!" };
+}
+
+
+
+export async function changePassword(currentPassword: string, newPassword: string, confirmedPassword: string) {
+    const supabase = await createServerSupabaseClient();
+
+    if(newPassword !== confirmedPassword){
+        return { error: "Passwords do not match!"};
+    }
+
+    const { error } = await supabase.auth.updateUser({
+            password: newPassword,
+            current_password: currentPassword // Supabase ovdje sam bezbjedno provjerava staru lozinku
+        });
+
+    if (error) {
+        return { error: error.message }; // Ako je stara lozinka netačna, vratiće grešku
+    }
+
+    return { success: "Password successfully changed!" };
+    
+
+}
 
 export async function updateUnit(unit: string) {
 

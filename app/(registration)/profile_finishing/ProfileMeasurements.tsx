@@ -12,7 +12,7 @@ export default function ProfileMeasurements() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  async function handleProfileSubmit(e: React.FormEvent<HTMLFormElement>) {
+ async function handleProfileSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError(null);
     setLoading(true);
@@ -27,6 +27,11 @@ export default function ProfileMeasurements() {
         setLoading(false);
       }
     } catch (err: any) {
+      // Ignoriši Next.js redirect izuzetak da ne prikazuje lažnu grešku
+      if (err?.message === "NEXT_REDIRECT" || err?.digest?.startsWith("NEXT_REDIRECT")) {
+        return;
+      }
+
       setError("Došlo je do neočekivane greške. Pokušajte ponovo.");
       setLoading(false);
     }
