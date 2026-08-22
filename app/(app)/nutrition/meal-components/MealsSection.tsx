@@ -54,7 +54,7 @@ export default function MealsSection({
       </div>
 
       {/* Lista obroka omotač */}
-      <div className="w-full min-w-0">
+      <div className="w-full min-w-0 min-h-[20vh]">
         <MealsList meals={meals} selectedDate={selectedDate} />
       </div>
     </section>

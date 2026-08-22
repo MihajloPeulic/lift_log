@@ -21,7 +21,7 @@ export default async function AddFoodPage({
   return (
 
 
-    <main className="min-h-screen bg-background text-text p-5 lg:p-8">
+    <main className="min-h-screen text-text p-5 lg:p-8">
 
 
       <SearchFood 

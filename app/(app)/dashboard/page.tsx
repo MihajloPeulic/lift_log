@@ -2,59 +2,39 @@ import WeightProgressChart from "./WeightProgressChart";
 import { getBwHistory, getCurrentUser, getUnitSystem, getCalorieHistory } from "../../lib/data/user";
 import CaloriesProgressChart from "./CaloriesProgressChart";
 
-
-
-
 export default async function DashboardPage() {
-
-
-    const user = await getCurrentUser()
-    const weightHistory = await getBwHistory()
-    const unit_system = await getUnitSystem()
-
-    const calorieHistory = await getCalorieHistory()
+    const user = await getCurrentUser();
+    const weightHistory = await getBwHistory();
+    const unit_system = await getUnitSystem();
+    const calorieHistory = await getCalorieHistory();
 
     const dailyCalories = calorieHistory.reduce(
-    (acc, item) => {
+        (acc, item) => {
+            const date = item.eaten_at.split("T")[0];
+            const calories =
+                ((item.amount * item.unit_grams) / 100) *
+                item.calories;
 
-        const date = item.eaten_at.split("T")[0];
+            acc[date] = (acc[date] ?? 0) + calories;
+            return acc;
+        },
+        {} as Record<string, number>
+    );
 
-
-        const calories =
-            ((item.amount * item.unit_grams) / 100) *
-            item.calories;
-
-
-        acc[date] = (acc[date] ?? 0) + calories;
-
-
-        return acc;
-
-    },
-    {} as Record<string, number>
-);
-
-
-
-
-
-  const calorieChartData = Object.entries(dailyCalories)
-      .map(([date_logged, calories]) => ({
-          date_logged,
-          calories: Number(calories.toFixed(1))
-      }))
-      .sort(
-          (a,b) =>
-              new Date(a.date_logged).getTime() -
-              new Date(b.date_logged).getTime()
-      );
-
+    const calorieChartData = Object.entries(dailyCalories)
+        .map(([date_logged, calories]) => ({
+            date_logged,
+            calories: Number(calories.toFixed(1))
+        }))
+        .sort(
+            (a, b) =>
+                new Date(a.date_logged).getTime() -
+                new Date(b.date_logged).getTime()
+        );
 
     return (
-
-        <div className="min-h-screen text-text">
-
-
+        <div className="min-h-[100dvh] text-text  overflow-x-hidden">
+            {/* Mobilna navigacija na dnu */}
             <nav className="
                 fixed
                 bottom-0
@@ -67,119 +47,86 @@ export default async function DashboardPage() {
                 backdrop-blur
                 lg:hidden
             ">
-
                 <div className="grid grid-cols-5 px-2 py-3">
-
-                    <a className="flex flex-col items-center gap-1 text-xs text-primary">
+                    <a className="flex flex-col items-center gap-1 text-[11px] sm:text-xs text-primary font-medium">
                         🏠
                         Home
                     </a>
-
-                    <a className="flex flex-col items-center gap-1 text-xs text-text-secondary">
+                    <a className="flex flex-col items-center gap-1 text-[11px] sm:text-xs text-text-secondary">
                         💪
                         Workout
                     </a>
-
-                    <a className="flex flex-col items-center gap-1 text-xs text-text-secondary">
+                    <a className="flex flex-col items-center gap-1 text-[11px] sm:text-xs text-text-secondary">
                         📈
                         Progress
                     </a>
-
-                    <a className="flex flex-col items-center gap-1 text-xs text-text-secondary">
+                    <a className="flex flex-col items-center gap-1 text-[11px] sm:text-xs text-text-secondary">
                         📋
                         Programs
                     </a>
-
-                    <a className="flex flex-col items-center gap-1 text-xs text-text-secondary">
+                    <a className="flex flex-col items-center gap-1 text-[11px] sm:text-xs text-text-secondary">
                         👤
                         Profile
                     </a>
-
                 </div>
-
             </nav>
 
-
-
-
+            {/* Glavni sadržaj */}
             <main className="
                 mx-auto
                 max-w-6xl
-                pb-mobile-nav
+                pb-24
+                lg:pb-12
                 lg:p-8
             ">
-
-
-                <header
-                    className="
+                <header className="
                     border-b
                     border-border
-                    px-5
-                    py-5
+                    px-4
+                    py-4
+                    sm:px-6
                     lg:px-8
-                    "
-                >
-
-                    <h1 className="text-2xl font-bold">
+                ">
+                    <h1 className="text-xl font-bold sm:text-2xl">
                         Dashboard
                     </h1>
-
-
-                    <p className="mt-1 text-sm text-text-secondary">
+                    <p className="mt-0.5 text-xs text-text-secondary sm:text-sm">
                         Track your progress and stay consistent.
                     </p>
-
-
                 </header>
 
-
-
-
-                <div className="p-5 lg:p-8">
-
-
-                    <section className="mb-8">
-
-                        <h2 className="text-3xl font-bold">
+                <div className="px-4 py-6 sm:px-6 lg:p-8">
+                    <section className="mb-6 sm:mb-8">
+                        <h2 className="text-2xl font-bold sm:text-3xl tracking-tight">
                             Good morning, {user.user_metadata?.username} 👋
                         </h2>
-
-
-                        <p className="mt-2 text-text-secondary">
+                        <p className="mt-1.5 text-xs text-text-secondary sm:text-sm">
                             Keep pushing towards your goals.
                         </p>
-
-
                     </section>
 
-
-
-
+                    {/* Grafikoni u rešetki */}
                     <div className="grid gap-6 lg:grid-cols-2 items-stretch">
-
-                      <div className="w-full">
-                          <WeightProgressChart
-                              data={weightHistory ?? []}
-                              unit_system={unit_system}
-                          />
-                      </div>
-
-                      <div className="w-full">
-                          <CaloriesProgressChart
-                              data={calorieChartData ?? []}
-                          />
-                      </div>
-
-                  </div>
-
-
+                        <div className="w-full">
+                            <WeightProgressChart
+                                data={weightHistory ?? []}
+                                unit_system={unit_system}
+                            />
+                        </div>
+                        
+                        {calorieChartData.length > 0 && 
+                            (
+                                <div className="w-full">
+                                    <CaloriesProgressChart
+                                        data={calorieChartData ?? []}
+                                    />
+                                </div>
+                            )
+                        
+                        }
+                    </div>
                 </div>
-
-
             </main>
-
-
         </div>
-
     );
 }

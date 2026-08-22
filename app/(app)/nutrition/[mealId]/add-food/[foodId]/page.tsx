@@ -34,7 +34,7 @@ export default async function AddFoodPage(
 
 return (
 
-<div className="min-h-screen bg-background text-text p-5 lg:p-8">
+<div className="min-h-screen text-text p-5 lg:p-8">
 
   <AddFoodForm 
     food={food}

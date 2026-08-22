@@ -4,7 +4,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { 
   LayoutDashboard, 
-  Dumbbell, 
   Utensils, 
   User 
 } from "lucide-react";

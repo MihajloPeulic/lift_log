@@ -26,7 +26,7 @@ export default async function UpdateFood({
     const gramUnit = await getGramUnitsId()
 
     return (
-        <div className="min-h-screen bg-background text-text p-5 lg:p-8">
+        <div className="min-h-screen text-text p-5 lg:p-8">
         
           <UpdateFoodForm 
             mealItem={mealItem}

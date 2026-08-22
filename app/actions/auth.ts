@@ -26,7 +26,7 @@ export async function signUpAction(
 
 
     if(password !== confirmPassword){
-        throw new Error("Passwords do not match");
+        return { error: "Passwords do not match!" };
     }
 
     const { error } = await supabase.auth.signUp({
@@ -40,8 +40,9 @@ export async function signUpAction(
         },
     });
 
-    if(error){
-        throw new Error(error.message);
+    if (error) {
+        // Vraćamo objekat sa greškom umjesto throw new Error
+        return { error: error.message };
     }
 
     redirect("/profile_finishing")
@@ -51,9 +52,7 @@ export async function signUpAction(
 export async function finishProfileAction(
     formData: FormData
 ) {
-    
     const supabase = await createServerSupabaseClient();
-
 
     let bodyweight = Number(formData.get("bodyweight"))
     let height = Number(formData.get("height"))
@@ -65,7 +64,22 @@ export async function finishProfileAction(
     const activity = String(formData.get("activity"))
     const bodyFat = String(formData.get("bodyFat"))
 
+    // Provjera da li je korisnik mlađi od 10 godina (bazirano na 2026. godini)
+    if (date_of_birth) {
+        const dob = new Date(date_of_birth);
+        const today = new Date(); // Trenutna godina je 2026.
 
+        let age = today.getFullYear() - dob.getFullYear();
+        const monthDifference = today.getMonth() - dob.getMonth();
+        
+        if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < dob.getDate())) {
+            age--;
+        }
+
+        if (age < 10) {
+            return { error: "You must be at least 10 years old to use this app." };
+        }
+    }
 
     if(unit === "imperial"){
         let feetToInch = feet * 12;
@@ -82,7 +96,7 @@ export async function finishProfileAction(
     } = await supabase.auth.getUser();
 
     if(!user){
-        throw new Error("User not authenticated");
+        return { error: "User not authenticated!" };
     }
 
     const {
@@ -97,9 +111,6 @@ export async function finishProfileAction(
                         activity, 
                         gender)
 
-
-
-
     const { data: calorieNeedsData, error: calorieNeedsError } = await supabase
     .from('calorie_needs') 
     .insert({
@@ -110,11 +121,10 @@ export async function finishProfileAction(
         carbs_needs: carbs_needs,
         activity_level: activity,
         bmr: BMR
-
     })
 
     if (calorieNeedsError){
-        throw new Error(calorieNeedsError.message)
+        return { error: calorieNeedsError.message };
     }
 
     const { data: profileData, error: profileError } = await supabase
@@ -124,7 +134,6 @@ export async function finishProfileAction(
         full_name: user.user_metadata.full_name,
         username: user.user_metadata.username,
         role: user.user_metadata.role,
-
         current_bodyweight: bodyweight,
         height,
         date_of_birth,
@@ -134,14 +143,12 @@ export async function finishProfileAction(
     })
 
     if(profileError){
-        throw new Error(profileError.message)
+        return { error: profileError.message };
     }
 
     await addBwHistory(bodyweight, user.id)
 
-
     redirect("/dashboard")
-
 }
 
 
@@ -159,7 +166,6 @@ export async function signOutAction() {
 }
 
 export async function logInAction(formData: FormData) {
-
     const supabase = await createServerSupabaseClient();
 
     const email = String(formData.get("email"));
@@ -170,10 +176,12 @@ export async function logInAction(formData: FormData) {
         password,
     });
 
-    if(error){
-        throw new Error(error.message);
+    if (error) {
+        // Vraćamo objekat sa greškom umjesto throw new Error
+        return { error: error.message };
     }
 
+    // Redirect se obavezno poziva VAN try/catch bloka (ili u ovom slučaju nakon if(error))
     redirect("/dashboard");
 }
 

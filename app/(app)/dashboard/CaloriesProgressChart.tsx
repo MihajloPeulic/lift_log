@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
     BarChart,
@@ -10,100 +10,66 @@ import {
     ResponsiveContainer
 } from "recharts";
 
-
 type CaloriesData = {
     date_logged: string;
     calories: number;
 };
 
-
-export default function CaloriesProgressChart(
-    {
-        data
-    }: {
-        data: CaloriesData[]
-    }
-) {
-
-
+export default function CaloriesProgressChart({
+    data
+}: {
+    data: CaloriesData[]
+}) {
     return (
-
-        <section className="h-full rounded-card border border-border bg-surface p-card">
-
-
-            <div className="flex items-center justify-between">
-
-
+        <section className="h-full w-full rounded-card border border-border bg-surface p-4 sm:p-card">
+            {/* Zaglavlje */}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div>
-
-                    <h2 className="text-xl font-bold">
+                    <h2 className="text-lg font-bold sm:text-xl">
                         Calories Consumed
                     </h2>
-
-
-                    <p className="mt-1 text-sm text-text-secondary">
+                    <p className="mt-0.5 text-xs text-text-secondary sm:text-sm">
                         Track your daily calorie intake
                     </p>
-
                 </div>
 
-
-
-                <span
-                    className="
-                    rounded-pill
-                    bg-primary/10
-                    px-3
-                    py-1
-                    text-sm
-                    text-primary
-                    "
-                >
+                <span className="self-start sm:self-auto rounded-pill bg-primary/10 px-3 py-1 text-xs sm:text-sm font-medium text-primary">
                     kcal
                 </span>
-
-
             </div>
 
-
-
-
-
-            <div className="mt-8 h-72 w-full">
-
-
-                <ResponsiveContainer
-                    width="100%"
-                    height="100%"
-                >
-
-
+            {/* Kontejner za grafikon */}
+            <div className="mt-6 h-64 w-full sm:mt-8 sm:h-72">
+                <ResponsiveContainer width="100%" height="100%">
                     <BarChart
                         data={data}
+                        margin={{ top: 10, right: 10, left: -15, bottom: 0 }}
                     >
-
-
-
                         <CartesianGrid
                             strokeDasharray="3 3"
+                            vertical={false}
+                            stroke="rgba(255, 255, 255, 0.1)"
                         />
-
-
 
                         <XAxis
                             dataKey="date_logged"
+                            tickLine={false}
+                            axisLine={false}
+                            tick={{ fill: "currentColor", fontSize: 11 }}
+                            className="text-text-secondary"
+                            dy={10}
                         />
-
-
 
                         <YAxis
                             domain={[
                                 "dataMin - 200",
                                 "dataMax + 200"
                             ]}
+                            tickLine={false}
+                            axisLine={false}
+                            tick={{ fill: "currentColor", fontSize: 11 }}
+                            className="text-text-secondary"
                         />
-
-
 
                         <Tooltip
                             contentStyle={{
@@ -115,12 +81,12 @@ export default function CaloriesProgressChart(
                             }}
                             labelStyle={{
                                 color: "white",
-                                fontSize: "14px",
+                                fontSize: "13px",
                                 marginBottom: "4px",
                             }}
                             itemStyle={{
                                 color: "white",
-                                fontSize: "14px",
+                                fontSize: "13px",
                                 fontWeight: 500,
                             }}
                             cursor={{
@@ -132,30 +98,14 @@ export default function CaloriesProgressChart(
                             ]}
                         />
 
-
-
                         <Bar
                             dataKey="calories"
                             fill="#22c55e"
-                            radius={[
-                                8,
-                                8,
-                                0,
-                                0
-                            ]}
+                            radius={[6, 6, 0, 0]}
                         />
-
-
                     </BarChart>
-
-
                 </ResponsiveContainer>
-
-
             </div>
-
-
         </section>
-
     );
 }
