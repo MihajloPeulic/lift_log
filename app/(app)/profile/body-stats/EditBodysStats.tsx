@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { updateBodyStats } from "@/app/actions/updateProfile";
 import { CalendarDays, UserRound, Scale, Ruler, Percent } from "lucide-react";
@@ -29,15 +29,15 @@ export default function EditBodyStats({
   }
 
   return (
-    <div className="mt-3 w-full max-w-2xl">
-      <div className="rounded-card border border-border bg-surface p-4 sm:p-card">
+    <div className="layout-container">
+      <div className="card-main">
         
         {/* Header */}
-        <header className="mb-6 sm:mb-8">
-          <h2 className="text-xl font-bold sm:text-2xl">
+        <header>
+          <h1 className="text-h1">
             Edit Body Stats
-          </h2>
-          <p className="mt-1 text-xs text-text-secondary sm:text-sm">
+          </h1>
+          <p className="text-caption mt-1">
             Update your current measurements.
           </p>
         </header>
@@ -49,13 +49,13 @@ export default function EditBodyStats({
             hidden
           />
 
-          <div className="divide-y divide-border">
+          <div className="mt-5 divide-y divide-border border-t border-border">
             
             {/* Age / Date of Birth */}
-            <div className="flex flex-col gap-2 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-              <div className="flex shrink-0 items-center gap-2">
-                <CalendarDays className="h-4 w-4 text-primary" />
-                <label className="text-sm font-medium">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between py-4 sm:py-5 gap-3">
+              <div className="flex items-center gap-2">
+                <CalendarDays className="icon-sm text-primary" />
+                <label className="text-sm sm:text-base font-bold text-text">
                   Date of birth
                 </label>
               </div>
@@ -64,15 +64,15 @@ export default function EditBodyStats({
                 type="date"
                 name="date_of_birth"
                 defaultValue={date_of_birth}
-                className="w-full rounded-button border border-border bg-background px-3 py-2.5 text-sm outline-none focus:border-primary sm:w-48 sm:py-2 sm:text-right"
+                className="input-box w-full sm:w-44 text-left appearance-none cursor-pointer"
               />
             </div>
 
             {/* Gender */}
-            <div className="flex flex-col gap-2 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-              <div className="flex shrink-0 items-center gap-2">
-                <UserRound className="h-4 w-4 text-primary" />
-                <label className="text-sm font-medium">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between py-4 sm:py-5 gap-3">
+              <div className="flex items-center gap-2">
+                <UserRound className="icon-sm text-primary" />
+                <label className="text-sm sm:text-base font-bold text-text">
                   Gender
                 </label>
               </div>
@@ -80,67 +80,68 @@ export default function EditBodyStats({
               <select
                 name="gender"
                 defaultValue={gender}
-                className="w-full rounded-button border border-border bg-background px-3 py-2.5 text-sm outline-none focus:border-primary sm:w-48 sm:py-2 sm:text-right"
+                className="input-box w-full sm:w-44 text-left appearance-none cursor-pointer"
               >
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
+                <option className="bg-surface text-text font-medium" value="male">Male</option>
+                <option className="bg-surface text-text font-medium" value="female">Female</option>
+                <option className="bg-surface text-text font-medium" value="other">Other</option>
               </select>
             </div>
 
             {/* Bodyweight */}
-            <div className="flex flex-col gap-2 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-              <div className="flex shrink-0 items-center gap-2">
-                <Scale className="h-4 w-4 text-primary" />
-                <label className="text-sm font-medium">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between py-4 sm:py-5 gap-3">
+              <div className="flex items-center gap-2">
+                <Scale className="icon-sm text-primary" />
+                <label className="text-sm sm:text-base font-bold text-text">
                   Bodyweight
                 </label>
               </div>
 
-              <div className="relative w-full sm:w-48">
+              <div className="relative w-full sm:w-44">
                 <input
                   type="number"
+                  step="0.1"
                   name="bodyweight"
                   defaultValue={bodyweight.toString()}
-                  className="w-full rounded-button border border-border bg-background px-3 py-2.5 pr-10 text-sm outline-none focus:border-primary sm:py-2 sm:text-right"
+                  className="input-box w-full pr-12 text-left"
                 />
-                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-text-secondary">
+                <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs text-text-secondary font-medium pointer-events-none">
                   {unit_system === "imperial" ? "lbs" : "kg"}
                 </span>
               </div>
             </div>
 
             {/* Height */}
-            <div className="flex flex-col gap-2 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-              <div className="flex shrink-0 items-center gap-2">
-                <Ruler className="h-4 w-4 text-primary" />
-                <label className="text-sm font-medium">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between py-4 sm:py-5 gap-3">
+              <div className="flex items-center gap-2">
+                <Ruler className="icon-sm text-primary" />
+                <label className="text-sm sm:text-base font-bold text-text">
                   Height
                 </label>
               </div>
 
               {unit_system === "metric" ? (
-                <div className="relative w-full sm:w-48">
+                <div className="relative w-full sm:w-44">
                   <input
                     type="number"
                     name="height"
                     defaultValue={height}
-                    className="w-full rounded-button border border-border bg-background px-3 py-2.5 pr-10 text-sm outline-none focus:border-primary sm:py-2 sm:text-right"
+                    className="input-box w-full pr-12 text-left"
                   />
-                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-text-secondary">
+                  <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs text-text-secondary font-medium pointer-events-none">
                     cm
                   </span>
                 </div>
               ) : (
-                <div className="flex w-full gap-2 sm:w-48">
+                <div className="flex w-full gap-2 sm:w-44">
                   <div className="relative flex-1">
                     <input
                       type="number"
                       name="feet"
                       defaultValue={feet}
-                      className="w-full rounded-button border border-border bg-background px-3 py-2.5 pr-8 text-sm outline-none focus:border-primary sm:py-2 sm:text-right"
+                      className="input-box w-full pr-10 text-left"
                     />
-                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-text-secondary">
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-text-secondary font-medium pointer-events-none">
                       ft
                     </span>
                   </div>
@@ -149,9 +150,9 @@ export default function EditBodyStats({
                       type="number"
                       name="inch"
                       defaultValue={inch}
-                      className="w-full rounded-button border border-border bg-background px-3 py-2.5 pr-8 text-sm outline-none focus:border-primary sm:py-2 sm:text-right"
+                      className="input-box w-full pr-10 text-left"
                     />
-                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-text-secondary">
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-text-secondary font-medium pointer-events-none">
                       in
                     </span>
                   </div>
@@ -160,22 +161,23 @@ export default function EditBodyStats({
             </div>
 
             {/* Body fat */}
-            <div className="flex flex-col gap-2 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-              <div className="flex shrink-0 items-center gap-2">
-                <Percent className="h-4 w-4 text-primary" />
-                <label className="text-sm font-medium">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between py-4 sm:py-5 gap-3">
+              <div className="flex items-center gap-2">
+                <Percent className="icon-sm text-primary" />
+                <label className="text-sm sm:text-base font-bold text-text">
                   Body fat
                 </label>
               </div>
 
-              <div className="relative w-full sm:w-48">
+              <div className="relative w-full sm:w-44">
                 <input
                   type="number"
                   name="bodyFat"
+                  step="0.1"
                   defaultValue={bodyFat}
-                  className="w-full rounded-button border border-border bg-background px-3 py-2.5 pr-8 text-sm outline-none focus:border-primary sm:py-2 sm:text-right"
+                  className="input-box w-full pr-10 text-left"
                 />
-                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-text-secondary">
+                <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs text-text-secondary font-medium pointer-events-none">
                   %
                 </span>
               </div>
@@ -185,7 +187,7 @@ export default function EditBodyStats({
 
           <button
             type="submit"
-            className="mt-6 w-full cursor-pointer rounded-button bg-primary py-3 text-sm font-semibold text-black transition hover:bg-primary-hover sm:text-base"
+            className="btn-primary mt-6"
           >
             Save Changes
           </button>

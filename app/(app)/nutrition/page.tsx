@@ -1,4 +1,3 @@
-import Sidebar from "@/components/Sidebar_desktop";
 import DateSelector from "@/components/DateSelector";
 import MealsSection from "./meal-components/MealsSection";
 import { getMeals } from "@/app/lib/data/meals";
@@ -31,14 +30,14 @@ export default async function NutritionPage({
   return (
     <div className="min-h-screen w-full overflow-x-hidden text-text">
       <div className="flex min-h-screen w-full">
-        {/* min-w-0 sprečava flex child da probije širinu roditelja */}
-        <main className="mx-auto w-full max-w-6xl min-w-0 p-4 pb-28 sm:p-6 lg:p-8">
-          <header className="space-y-6">
+        <main className="mx-auto w-full max-w-6xl min-w-0 p-4 pb-28 sm:p-6 lg:p-8 space-y-6 sm:space-y-8">
+          
+          <header className="space-y-4">
             <div>
-              <h1 className="text-2xl font-bold sm:text-3xl">
+              <h1 className="text-h1">
                 Nutrition
               </h1>
-              <p className="text-sm text-text-secondary sm:text-base">
+              <p className="text-caption mt-1">
                 Track calories, macros and meals.
               </p>
             </div>

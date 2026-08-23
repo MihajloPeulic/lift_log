@@ -35,49 +35,50 @@ export default function AddMealModal({
       <Tooltip text="Add Meals">
         <button
           onClick={() => setOpen(true)}
-          className="cursor-pointer rounded-button bg-primary px-3.5 py-2.5 text-sm font-semibold text-black transition hover:bg-primary-hover sm:px-5 sm:py-3 sm:text-base"
+          className="btn-primary px-3.5 py-2.5 sm:px-5 sm:py-3 text-sm sm:text-base font-bold text-black"
         >
           + Add meal
         </button>
       </Tooltip>
 
       {open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
-          <div className="w-full max-w-md min-w-0 rounded-card border border-border bg-surface p-5 shadow-xl sm:p-card">
-            <header className="mb-5 sm:mb-6">
-              <h2 className="text-xl font-bold sm:text-2xl">Add meal</h2>
-              <p className="mt-1 text-xs text-text-secondary sm:text-sm">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs">
+          <div className="card-main w-full max-w-md min-w-0 shadow-2xl p-5 sm:p-6 space-y-5">
+            
+            <header>
+              <h2 className="text-h1">Add meal</h2>
+              <p className="text-caption mt-1">
                 Create a new meal and add foods later.
               </p>
             </header>
 
-            <div className="space-y-4 sm:space-y-5">
+            <div className="space-y-4">
               {/* Meal type */}
               <div>
-                <label className="mb-2 block text-xs font-medium sm:text-sm">
+                <label className="text-label block mb-1.5">
                   Meal type
                 </label>
 
                 <select
                   value={mealType}
                   onChange={(e) => setMealType(e.target.value)}
-                  className="w-full rounded-button border border-border bg-background px-3.5 py-2.5 text-sm outline-none focus:border-primary sm:px-4 sm:py-3 sm:text-base"
+                  className="input-box bg-background text-text w-full appearance-none cursor-pointer"
                 >
-                  <option value="breakfast">Breakfast</option>
-                  <option value="lunch">Lunch</option>
-                  <option value="dinner">Dinner</option>
-                  <option value="snack">Snack</option>
-                  <option value="pre-workout meal">Pre-workout meal</option>
-                  <option value="post-workout meal">Post-workout meal</option>
+                  <option className="bg-surface text-text font-medium" value="breakfast">Breakfast</option>
+                  <option className="bg-surface text-text font-medium" value="lunch">Lunch</option>
+                  <option className="bg-surface text-text font-medium" value="dinner">Dinner</option>
+                  <option className="bg-surface text-text font-medium" value="snack">Snack</option>
+                  <option className="bg-surface text-text font-medium" value="pre-workout meal">Pre-workout meal</option>
+                  <option className="bg-surface text-text font-medium" value="post-workout meal">Post-workout meal</option>
                 </select>
               </div>
 
               {/* Action Buttons */}
-              <div className="flex gap-2.5 pt-2 sm:gap-3 sm:pt-3">
+              <div className="flex flex-col-reverse sm:flex-row justify-end gap-2.5 pt-2">
                 <button
                   type="button"
                   onClick={() => setOpen(false)}
-                  className="flex-1 cursor-pointer rounded-button border border-border py-2.5 text-sm transition hover:bg-surface-light sm:py-3 sm:text-base"
+                  className="cursor-pointer rounded-button border border-border px-4 py-2.5 text-sm font-semibold hover:bg-surface-light transition-colors text-text"
                 >
                   Cancel
                 </button>
@@ -86,12 +87,13 @@ export default function AddMealModal({
                   type="button"
                   disabled={loading}
                   onClick={createMealPage}
-                  className="flex-1 cursor-pointer rounded-button bg-primary py-2.5 text-sm font-semibold text-black transition hover:bg-primary-hover disabled:opacity-50 sm:py-3 sm:text-base"
+                  className="cursor-pointer flex items-center justify-center gap-2 rounded-button bg-primary px-4 py-2.5 text-sm font-bold text-black hover:bg-primary-hover transition-colors disabled:opacity-50"
                 >
                   {loading ? "Creating..." : "Create meal"}
                 </button>
               </div>
             </div>
+
           </div>
         </div>
       )}

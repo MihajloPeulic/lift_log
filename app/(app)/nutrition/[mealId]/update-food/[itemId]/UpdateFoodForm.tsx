@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Food, Unit } from "@/app/types/food";
-import { updateMealItem, deleteMealItem} from "@/app/actions/nutrition";
+import { updateMealItem, deleteMealItem } from "@/app/actions/nutrition";
 import { SubmitButton } from "@/components/SubmitButton";
 import { DeleteButton } from "@/components/DeleteButton";
 import { CalculateCaloriesAndMacros, CalculateDailyNutrition, CalculateMicros } from "@/app/lib/utils/nutrition";
@@ -31,9 +31,6 @@ export default function UpdateFoodForm({
   units: Unit[],
   gramUnit: Unit
 }){
-  const amountValue = mealItem.amount;
-  const itemUnit = mealItem.food_unit_id;
-
   const initialUnit = units.find(
     (u) => u.id === mealItem.food_unit_id
   );
@@ -59,7 +56,7 @@ export default function UpdateFoodForm({
   const calsAndMacros = CalculateCaloriesAndMacros(dailyTargets, dailyTotals);
 
   return (
-    <form className="mx-auto w-full max-w-3xl">
+    <form className="mx-auto w-full max-w-3xl space-y-6 sm:space-y-8">
 
       <input
         type="hidden"
@@ -74,24 +71,22 @@ export default function UpdateFoodForm({
       />
 
       {/* Header */}
-      <header className="mb-6 sm:mb-8">
-        <h1 className="text-2xl font-bold sm:text-3xl">
+      <header>
+        <h1 className="text-h1">
           {food.name}
         </h1>
-        <p className="mt-1 text-sm text-text-secondary sm:text-base">
+        <p className="text-caption mt-1">
           Adjust serving size and view nutrition
         </p>
       </header>
 
       {/* Amount selector */}
-      <section className="w-full rounded-card border border-border bg-surface p-4 sm:p-5">
-        
-        <h2 className="text-base font-bold sm:text-lg">
+      <section className="card-main">
+        <h2 className="text-base sm:text-lg font-bold text-text">
           Serving size
         </h2>
 
-        {/* Flex kontejner drži elemente jedan pored drugog na svim ekranima */}
-        <div className="mt-4 flex w-full items-stretch gap-2 sm:mt-5 sm:gap-3">
+        <div className="mt-4 flex w-full items-stretch gap-2.5 sm:mt-5 sm:gap-3">
           
           <input
             type="number"
@@ -101,18 +96,7 @@ export default function UpdateFoodForm({
               const value = e.target.value;
               setAmount(value === "" ? "" : Number(value));
             }}
-            className="
-              w-1/2 min-w-0
-              rounded-button
-              border border-border
-              bg-background
-              px-3 py-2.5
-              text-lg font-bold
-              outline-none
-              transition-colors
-              focus:border-primary
-              sm:px-4 sm:py-3 sm:text-xl
-            "
+            className="input-box w-1/2 min-w-0 text-lg sm:text-xl font-bold text-text"
           />
 
           <select
@@ -124,38 +108,23 @@ export default function UpdateFoodForm({
               const newUnit = units.find((u) => u.id === newUnitId);
               const newUnitGrams = newUnit?.grams ?? 1;
 
-              // trenutna količina u gramima
               const totalGrams = Number(amount || 0) * oldUnitGrams;
-
-              // koliko je to nove jedinice
               const newAmount = totalGrams / newUnitGrams;
 
               setUnit(newUnitId);
               setUnitGrams(newUnitGrams);
               setAmount(Number(newAmount.toFixed(2)));
             }}
-            className="
-              w-1/2 min-w-0
-              truncate
-              rounded-button
-              border border-border
-              bg-background
-              px-2 py-2.5
-              text-sm
-              outline-none
-              transition-colors
-              focus:border-primary
-              sm:px-4 sm:py-3 sm:text-base
-            "
+            className="input-box bg-background text-text w-1/2 min-w-0 appearance-none cursor-pointer"
           >
-            {units.map(unit => (
-              unit.id === gramUnit.id ? (
-                <option value={unit.id} key={unit.id}>
-                  {unit.unit_name} 
+            {units.map(u => (
+              u.id === gramUnit.id ? (
+                <option className="bg-surface text-text font-medium" value={u.id} key={u.id}>
+                  {u.unit_name} 
                 </option>
               ) : (
-                <option value={unit.id} key={unit.id}>
-                  {unit.unit_name} ({unit.grams}g)
+                <option className="bg-surface text-text font-medium" value={u.id} key={u.id}>
+                  {u.unit_name} ({u.grams}g)
                 </option>
               )
             ))}
@@ -163,8 +132,8 @@ export default function UpdateFoodForm({
         </div>
       </section>
 
-      {/* Calories */}
-      <div className="mt-5 sm:mt-6">
+      {/* Calories & Macros */}
+      <div>
         <Macronutrients 
           dailyTotals={dailyTotals}
           caloriePercent={calsAndMacros.caloriePercent}
@@ -174,49 +143,28 @@ export default function UpdateFoodForm({
       </div>
 
       {/* Micronutrients */}
-      <div className="mb-2 mt-5 sm:mt-6">
+      <div>
         <Micronutrients 
           micros={micros}
         />
       </div>
 
-      {/* Akcije (Update / Delete) u jednom redu */}
-      <div className="mt-6 flex w-full gap-2 sm:mt-8 sm:gap-4">
+      {/* Akcije (Update / Delete) */}
+      <div className="mt-6 flex w-full gap-2.5 sm:mt-8 sm:gap-4">
         
         <SubmitButton
           formAction={updateMealItem}
-          className="
-            flex-1
-            cursor-pointer
-            rounded-button
-            bg-primary
-            py-3 text-sm
-            font-bold text-black
-            transition-colors
-            hover:bg-primary-hover
-            sm:py-4 sm:text-base
-          "
+          className="btn-primary flex-1 py-3 sm:py-4 text-sm sm:text-base font-bold text-black"
         >
           Update
         </SubmitButton>
         
         <DeleteButton
           formAction={deleteMealItem}
-          className="
-            flex-1
-            cursor-pointer
-            rounded-button
-            border border-red-500/50
-            bg-red-500/10
-            py-3 text-sm
-            font-bold text-red-400
-            transition-colors
-            hover:bg-red-500/20
-            sm:py-4 sm:text-base
-          "
+          className="flex-1 cursor-pointer rounded-button border border-red-500/50 bg-red-500/10 py-3 sm:py-4 text-sm sm:text-base font-bold text-red-400 transition-colors hover:bg-red-500/20"
         >
           Delete
-        </DeleteButton >
+        </DeleteButton>
 
       </div>
     </form>

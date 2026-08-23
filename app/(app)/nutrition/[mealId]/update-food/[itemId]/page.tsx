@@ -1,23 +1,21 @@
 import { getFood, getMealItem, getUnits, getGramUnitsId } from "@/app/lib/data/food"
 import UpdateFoodForm from "./UpdateFoodForm"
 
-
 export default async function UpdateFood({
     params,
     searchParams
 }:{
     params: Promise<{
-        mealId:string,
+        mealId: string,
         itemId: string
     }>,
     searchParams: Promise<{
-      date:string,
+      date: string,
       itemId: string
     }>
 }){
-    const {mealId} = await params
-    const {itemId} = await params
-    const {date} = await searchParams
+    const { itemId } = await params
+    const { date } = await searchParams
 
     const mealItem = await getMealItem(itemId)
     const food = await getFood(mealItem.food_id)
@@ -26,8 +24,7 @@ export default async function UpdateFood({
     const gramUnit = await getGramUnitsId()
 
     return (
-        <div className="min-h-screen text-text p-5 lg:p-8">
-        
+        <main className="min-h-screen text-text p-5 lg:p-8">
           <UpdateFoodForm 
             mealItem={mealItem}
             selectedDate={date}
@@ -35,7 +32,6 @@ export default async function UpdateFood({
             units={foodUnits}
             gramUnit={gramUnit}
           />
-        
-        </div>
+        </main>
     )
 }

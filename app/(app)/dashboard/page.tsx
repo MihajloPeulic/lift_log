@@ -33,20 +33,10 @@ export default async function DashboardPage() {
         );
 
     return (
-        <div className="min-h-[100dvh] text-text  overflow-x-hidden">
+        <div className="min-h-[100dvh] text-text overflow-x-hidden">
+            
             {/* Mobilna navigacija na dnu */}
-            <nav className="
-                fixed
-                bottom-0
-                left-0
-                right-0
-                z-50
-                border-t
-                border-border
-                bg-background/95
-                backdrop-blur
-                lg:hidden
-            ">
+            <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-background/95 backdrop-blur lg:hidden">
                 <div className="grid grid-cols-5 px-2 py-3">
                     <a className="flex flex-col items-center gap-1 text-[11px] sm:text-xs text-primary font-medium">
                         🏠
@@ -72,35 +62,23 @@ export default async function DashboardPage() {
             </nav>
 
             {/* Glavni sadržaj */}
-            <main className="
-                mx-auto
-                max-w-6xl
-                pb-24
-                lg:pb-12
-                lg:p-8
-            ">
-                <header className="
-                    border-b
-                    border-border
-                    px-4
-                    py-4
-                    sm:px-6
-                    lg:px-8
-                ">
-                    <h1 className="text-xl font-bold sm:text-2xl">
+            <main className="mx-auto max-w-6xl pb-24 lg:pb-12 lg:p-8">
+                
+                <header className="border-b border-border px-4 py-4 sm:px-6 lg:px-8">
+                    <h1 className="text-h1">
                         Dashboard
                     </h1>
-                    <p className="mt-0.5 text-xs text-text-secondary sm:text-sm">
+                    <p className="text-caption mt-0.5">
                         Track your progress and stay consistent.
                     </p>
                 </header>
 
                 <div className="px-4 py-6 sm:px-6 lg:p-8">
                     <section className="mb-6 sm:mb-8">
-                        <h2 className="text-2xl font-bold sm:text-3xl tracking-tight">
+                        <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-text">
                             Good morning, {user.user_metadata?.username} 👋
                         </h2>
-                        <p className="mt-1.5 text-xs text-text-secondary sm:text-sm">
+                        <p className="text-caption mt-1.5">
                             Keep pushing towards your goals.
                         </p>
                     </section>
@@ -114,18 +92,16 @@ export default async function DashboardPage() {
                             />
                         </div>
                         
-                        {calorieChartData.length > 0 && 
-                            (
-                                <div className="w-full">
-                                    <CaloriesProgressChart
-                                        data={calorieChartData ?? []}
-                                    />
-                                </div>
-                            )
-                        
-                        }
+                        {calorieChartData.length > 0 && (
+                            <div className="w-full">
+                                <CaloriesProgressChart
+                                    data={calorieChartData ?? []}
+                                />
+                            </div>
+                        )}
                     </div>
                 </div>
+
             </main>
         </div>
     );

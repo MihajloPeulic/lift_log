@@ -5,14 +5,11 @@ import { useState } from "react";
 
 export default function ProfileMeasurements() {
   const [unitSystem, setUnitSystem] = useState("metric");
-  const [activityOpen, setActivityOpen] = useState(false);
-  const [activity, setActivity] = useState("");
   
-  // Novi state za greške i loading
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
- async function handleProfileSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleProfileSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError(null);
     setLoading(true);
@@ -27,7 +24,6 @@ export default function ProfileMeasurements() {
         setLoading(false);
       }
     } catch (err: any) {
-      // Ignoriši Next.js redirect izuzetak da ne prikazuje lažnu grešku
       if (err?.message === "NEXT_REDIRECT" || err?.digest?.startsWith("NEXT_REDIRECT")) {
         return;
       }
@@ -40,74 +36,74 @@ export default function ProfileMeasurements() {
   return (
     <section className="w-full max-w-md">
       {/* Logo */}
-      <header className="mb-8 text-center">
-        <div className="inline-flex items-center gap-2 text-2xl font-bold">
-          <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-green-500 text-black">
+      <header className="mb-6 text-center sm:mb-8">
+        <div className="inline-flex items-center gap-2.5 text-xl font-bold tracking-tight sm:text-2xl">
+          <span className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-button bg-primary text-black font-bold">
             L
           </span>
           LiftLog
         </div>
       </header>
 
-      <article className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6 shadow-xl sm:p-8">
-        <header className="mb-6">
-          <h1 className="text-3xl font-bold">
+      <article className="card-main p-5 sm:p-8 space-y-5">
+        <header>
+          <h1 className="text-h1">
             Complete your profile
           </h1>
-          <p className="mt-2 text-sm text-zinc-400">
+          <p className="text-caption mt-1.5 sm:mt-2">
             Help us personalize your training experience.
           </p>
         </header>
 
         {/* Prikaz greške ako postoji */}
         {error && (
-          <div className="mb-4 rounded-xl bg-red-500/10 p-3 text-xs sm:text-sm text-red-500 border border-red-500/20">
+          <div className="rounded-button bg-red-500/10 p-3 text-xs sm:text-sm text-red-500 border border-red-500/20 font-medium">
             {error}
           </div>
         )}
 
-        <form onSubmit={handleProfileSubmit} className="space-y-5">
+        <form onSubmit={handleProfileSubmit} className="space-y-4">
           {/* Date of Birth */}
           <div>
-            <label className="mb-2 block text-sm font-medium">
+            <label className="text-label block mb-1.5 sm:mb-2">
               Date of Birth
             </label>
             <input
               name="date_of_birth"
               type="date"
               required
-              className="w-full rounded-xl border border-zinc-700 bg-zinc-950 px-4 py-3 outline-none focus:border-green-500"
+              className="input-box w-full"
             />
           </div>
 
           {/* Gender */}
           <div>
-            <label className="mb-2 block text-sm font-medium">
+            <label className="text-label block mb-1.5 sm:mb-2">
               Gender
             </label>
             <select
               name="gender"
               required
-              className="w-full rounded-xl border border-zinc-700 bg-zinc-950 px-4 py-3 outline-none focus:border-green-500"
+              className="input-box bg-background text-text w-full appearance-none cursor-pointer"
             >
-              <option value="">Select gender</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="other">Other</option>
+              <option className="bg-surface text-text font-medium" value="">Select gender</option>
+              <option className="bg-surface text-text font-medium" value="male">Male</option>
+              <option className="bg-surface text-text font-medium" value="female">Female</option>
+              <option className="bg-surface text-text font-medium" value="other">Other</option>
             </select>
           </div>
 
           {/* Unit system */}
           <div>
-            <label className="mb-2 block text-sm font-medium">
+            <label className="text-label block mb-1.5 sm:mb-2">
               Unit system
             </label>
             <div className="grid grid-cols-2 gap-3">
               <label
-                className={`cursor-pointer rounded-xl border p-4 text-center transition ${
+                className={`cursor-pointer rounded-button border p-3.5 text-center transition ${
                   unitSystem === "metric"
-                    ? "border-green-500 bg-green-500/10 text-green-500"
-                    : "border-zinc-700 hover:bg-zinc-800"
+                    ? "border-primary bg-primary/10 text-primary font-semibold"
+                    : "border-border hover:bg-surface-light text-text"
                 }`}
               >
                 <input
@@ -118,15 +114,15 @@ export default function ProfileMeasurements() {
                   onChange={(e) => setUnitSystem(e.target.value)}
                   className="hidden"
                 />
-                <p className="font-semibold">Metric</p>
-                <p className="mt-1 text-xs text-zinc-400">kg, cm</p>
+                <p className="font-bold text-sm sm:text-base">Metric</p>
+                <p className="mt-0.5 text-xs text-text-secondary">kg, cm</p>
               </label>
 
               <label
-                className={`cursor-pointer rounded-xl border p-4 text-center transition ${
+                className={`cursor-pointer rounded-button border p-3.5 text-center transition ${
                   unitSystem === "imperial"
-                    ? "border-green-500 bg-green-500/10 text-green-500"
-                    : "border-zinc-700 hover:bg-zinc-800"
+                    ? "border-primary bg-primary/10 text-primary font-semibold"
+                    : "border-border hover:bg-surface-light text-text"
                 }`}
               >
                 <input
@@ -137,15 +133,15 @@ export default function ProfileMeasurements() {
                   onChange={(e) => setUnitSystem(e.target.value)}
                   className="hidden"
                 />
-                <p className="font-semibold">Imperial</p>
-                <p className="mt-1 text-xs text-zinc-400">lb, ft/in</p>
+                <p className="font-bold text-sm sm:text-base">Imperial</p>
+                <p className="mt-0.5 text-xs text-text-secondary">lb, ft/in</p>
               </label>
             </div>
           </div>
 
           {/* Bodyweight */}
           <div>
-            <label className="mb-2 block text-sm font-medium">
+            <label className="text-label block mb-1.5 sm:mb-2">
               Bodyweight
             </label>
             <div className="relative">
@@ -155,9 +151,9 @@ export default function ProfileMeasurements() {
                 required
                 placeholder={unitSystem === "metric" ? "70" : "154"}
                 name="bodyweight"
-                className="w-full rounded-xl border border-zinc-700 bg-zinc-950 px-4 py-3 pr-14 outline-none focus:border-green-500"
+                className="input-box w-full pr-14 placeholder:text-text-muted"
               />
-              <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-zinc-400">
+              <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs sm:text-sm font-medium text-text-secondary">
                 {unitSystem === "metric" ? "kg" : "lb"}
               </span>
             </div>
@@ -165,7 +161,7 @@ export default function ProfileMeasurements() {
 
           {/* Height */}
           <div>
-            <label className="mb-2 block text-sm font-medium">
+            <label className="text-label block mb-1.5 sm:mb-2">
               Height
             </label>
             {unitSystem === "metric" ? (
@@ -176,9 +172,9 @@ export default function ProfileMeasurements() {
                   step="any"
                   required
                   placeholder="180"
-                  className="w-full rounded-xl border border-zinc-700 bg-zinc-950 px-4 py-3 pr-14 outline-none focus:border-green-500"
+                  className="input-box w-full pr-14 placeholder:text-text-muted"
                 />
-                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-zinc-400">
+                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs sm:text-sm font-medium text-text-secondary">
                   cm
                 </span>
               </div>
@@ -190,9 +186,9 @@ export default function ProfileMeasurements() {
                     type="number"
                     required
                     placeholder="5"
-                    className="w-full rounded-xl border border-zinc-700 bg-zinc-950 px-4 py-3 pr-10 outline-none focus:border-green-500"
+                    className="input-box w-full pr-12 placeholder:text-text-muted"
                   />
-                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-zinc-400">
+                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs sm:text-sm font-medium text-text-secondary">
                     ft
                   </span>
                 </div>
@@ -202,9 +198,9 @@ export default function ProfileMeasurements() {
                     type="number"
                     required
                     placeholder="10"
-                    className="w-full rounded-xl border border-zinc-700 bg-zinc-950 px-4 py-3 pr-10 outline-none focus:border-green-500"
+                    className="input-box w-full pr-12 placeholder:text-text-muted"
                   />
-                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-zinc-400">
+                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs sm:text-sm font-medium text-text-secondary">
                     in
                   </span>
                 </div>
@@ -214,27 +210,26 @@ export default function ProfileMeasurements() {
 
           {/* Activity level */}
           <div>
-            <label className="mb-2 block text-sm font-medium">
+            <label className="text-label block mb-1.5 sm:mb-2">
               Activity level
             </label>
             <select
               name="activity"
               required
-              onChange={(e) => setActivity(e.target.value)}
-              className="w-full rounded-xl border border-zinc-700 bg-zinc-950 px-4 py-3 outline-none focus:border-green-500"
+              className="input-box bg-background text-text w-full appearance-none cursor-pointer"
             >
-              <option value="">Select your activity level</option>
-              <option value="sedentary">Sedentary - Little or no exercise</option>
-              <option value="lightly_active">Lightly active - Exercise 1-3 days/week</option>
-              <option value="moderately_active">Moderately active - Exercise 3-5 days/week</option>
-              <option value="very_active">Very active - Hard training 6-7 days/week</option>
-              <option value="extremely_active">Extremely active - Athlete or physical job</option>
+              <option className="bg-surface text-text font-medium" value="">Select your activity level</option>
+              <option className="bg-surface text-text font-medium" value="sedentary">Sedentary - Little or no exercise</option>
+              <option className="bg-surface text-text font-medium" value="lightly_active">Lightly active - Exercise 1-3 days/week</option>
+              <option className="bg-surface text-text font-medium" value="moderately_active">Moderately active - Exercise 3-5 days/week</option>
+              <option className="bg-surface text-text font-medium" value="very_active">Very active - Hard training 6-7 days/week</option>
+              <option className="bg-surface text-text font-medium" value="extremely_active">Extremely active - Athlete or physical job</option>
             </select>
           </div>
 
           {/* Body Fat */}
           <div>
-            <label className="mb-2 block text-sm font-medium">
+            <label className="text-label block mb-1.5 sm:mb-2">
               Body Fat (Optional)
             </label>
             <div className="relative">
@@ -243,9 +238,9 @@ export default function ProfileMeasurements() {
                 step="any"
                 placeholder="15"
                 name="bodyFat"
-                className="w-full rounded-xl border border-zinc-700 bg-zinc-950 px-4 py-3 pr-14 outline-none focus:border-green-500"
+                className="input-box w-full pr-14 placeholder:text-text-muted"
               />
-              <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-zinc-400">
+              <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs sm:text-sm font-medium text-text-secondary">
                 %
               </span>
             </div>
@@ -254,7 +249,7 @@ export default function ProfileMeasurements() {
           <button
             type="submit"
             disabled={loading}
-            className="mt-4 w-full rounded-xl bg-green-500 py-3 font-semibold text-black transition hover:bg-green-400 active:scale-[0.98] disabled:opacity-50 cursor-pointer"
+            className="btn-primary mt-2 w-full py-2.5 sm:py-3 text-sm sm:text-base font-bold text-black cursor-pointer disabled:opacity-50"
           >
             {loading ? "Saving profile..." : "Finish setup"}
           </button>

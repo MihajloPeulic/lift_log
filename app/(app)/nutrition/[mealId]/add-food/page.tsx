@@ -1,38 +1,29 @@
-
-
 import { searchFoods } from "@/app/lib/data/food";
 import SearchFood from "./SearchFood";
-
 
 export default async function AddFoodPage({
     params,
     searchParams
 }:{
     params: Promise<{
-        mealId:string
+        mealId: string
     }>,
     searchParams: Promise<{
-      date:string
+        date: string
     }>
 })  {
 
-  const {mealId} = await params
-  const {date} = await searchParams
+  const { mealId } = await params;
+  const { date } = await searchParams;
+
   return (
-
-
-    <main className="min-h-screen text-text p-5 lg:p-8">
-
-
-      <SearchFood 
-        mealId={mealId}
-        selectedDate={date}
-      />
-
-
-    </main>
-
-
+    <div className="layout-container">
+      <main className="space-y-6 sm:space-y-8">
+        <SearchFood 
+          mealId={mealId}
+          selectedDate={date}
+        />
+      </main>
+    </div>
   );
-
 }

@@ -15,21 +15,21 @@ export default function AppPreferences({
   const [unit, setUnit] = useState(unit_system);
 
   return (
-    <section className="mt-6 rounded-card border border-border bg-surface p-4 sm:mt-8 sm:p-card">
+    <section className="card-main space-y-4">
       
-      <h2 className="text-lg font-bold sm:text-xl">
+      <h2 className="text-base sm:text-lg font-bold text-text">
         App Preferences
       </h2>
 
-      <div className="mt-4 space-y-5 sm:mt-6 sm:space-y-6">
+      <div className="divide-y divide-border border-t border-border">
         
         {/* Unit System */}
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between py-4 sm:py-5 gap-3">
           <div>
-            <p className="text-sm font-medium sm:text-base">
+            <p className="text-sm sm:text-base font-bold text-text">
               Unit system
             </p>
-            <p className="text-xs text-text-secondary sm:text-sm">
+            <p className="text-caption mt-0.5">
               Choose measurement system
             </p>
           </div>
@@ -42,30 +42,30 @@ export default function AppPreferences({
               setUnit(newUnit);
               await updateUnit(newUnit);
             }}
-            className="w-full cursor-pointer rounded-button border border-border bg-background px-3 py-2.5 text-sm outline-none transition-colors focus:border-primary sm:w-48 sm:py-2 sm:text-base"
+            className="input-box bg-background text-text w-full sm:w-44 text-left appearance-none cursor-pointer"
           >
-            <option value="metric">Metric (kg, cm)</option>
-            <option value="imperial">Imperial (lb, ft/in)</option>
+            <option className="bg-surface text-text font-medium" value="metric">Metric (kg, cm)</option>
+            <option className="bg-surface text-text font-medium" value="imperial">Imperial (lb, ft/in)</option>
           </select>
         </div>
 
         {/* Theme */}
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between py-4 sm:py-5 gap-3">
           <div>
-            <p className="text-sm font-medium sm:text-base">
+            <p className="text-sm sm:text-base font-bold text-text">
               Theme
             </p>
-            <p className="text-xs text-text-secondary sm:text-sm">
+            <p className="text-caption mt-0.5">
               Appearance mode
             </p>
           </div>
 
           <select 
             defaultValue={theme}
-            className="w-full cursor-pointer rounded-button border border-border bg-background px-3 py-2.5 text-sm outline-none transition-colors focus:border-primary sm:w-48 sm:py-2 sm:text-base"
+            className="input-box bg-background text-text w-full sm:w-44 text-left appearance-none cursor-pointer"
           >
-            <option value="dark">Dark</option>
-            <option value="light">Light</option>
+            <option className="bg-surface text-text font-medium" value="dark">Dark</option>
+            <option className="bg-surface text-text font-medium" value="light">Light</option>
           </select>
         </div>
 

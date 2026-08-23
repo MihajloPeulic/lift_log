@@ -18,13 +18,11 @@ export default function LogInForm() {
     try {
       const result = await logInAction(formData);
 
-      // Ako server akcija vrati objekat sa greškom
       if (result?.error) {
         setError(result.error);
         setLoading(false);
       }
     } catch (err: any) {
-      // Ako je Next.js uradio redirect, on baca grešku koju moramo pustiti dalje da se stranica preusmjeri
       if (err?.message === "NEXT_REDIRECT" || err?.digest?.startsWith("NEXT_REDIRECT")) {
         return; 
       }
@@ -35,26 +33,26 @@ export default function LogInForm() {
   }
 
   return (
-    <article className="w-full rounded-card border border-border bg-surface p-5 shadow-xl sm:p-8">
-      <header className="mb-5 sm:mb-6">
-        <h1 id="login-title" className="text-2xl font-bold tracking-tight sm:text-3xl">
+    <article className="card-main w-full p-5 sm:p-8 space-y-5">
+      <header>
+        <h1 id="login-title" className="text-h1">
           Welcome back
         </h1>
-        <p className="mt-1.5 text-xs text-text-secondary sm:mt-2 sm:text-sm">
+        <p className="text-caption mt-1.5 sm:mt-2">
           Sign in to continue tracking your progress.
         </p>
       </header>
 
       {/* Prikaz greške ako postoji */}
       {error && (
-        <div className="mb-4 rounded-button bg-red-500/10 p-3 text-xs sm:text-sm text-red-500 border border-red-500/20 animate-shake">
+        <div className="rounded-button bg-red-500/10 p-3 text-xs sm:text-sm text-red-500 border border-red-500/20 font-medium">
           {error}
         </div>
       )}
 
-      <form onSubmit={handleLogin} className="space-y-4 sm:space-y-5">
+      <form onSubmit={handleLogin} className="space-y-4">
         <div>
-          <label htmlFor="email" className="mb-1.5 block text-xs font-medium sm:mb-2 sm:text-sm">
+          <label htmlFor="email" className="text-label block mb-1.5 sm:mb-2">
             Email
           </label>
           <input
@@ -63,16 +61,16 @@ export default function LogInForm() {
             type="email"
             required
             placeholder="you@example.com"
-            className="w-full rounded-button border border-border bg-background px-3.5 py-2.5 text-sm outline-none transition placeholder:text-text-muted focus:border-primary focus:ring-2 focus:ring-primary/20 sm:px-4 sm:py-3"
+            className="input-box w-full placeholder:text-text-muted"
           />
         </div>
 
         <div>
           <div className="mb-1.5 flex items-center justify-between sm:mb-2">
-            <label htmlFor="password" className="text-xs font-medium sm:text-sm">
+            <label htmlFor="password" className="text-label">
               Password
             </label>
-            <Link href="/forgot-password" className="text-xs text-primary hover:text-primary-hover sm:text-sm transition">
+            <Link href="/forgot-password" className="text-xs sm:text-sm text-primary hover:text-primary-hover font-semibold transition">
               Forgot password?
             </Link>
           </div>
@@ -83,29 +81,29 @@ export default function LogInForm() {
             type="password"
             required
             placeholder="••••••••"
-            className="w-full rounded-button border border-border bg-background px-3.5 py-2.5 text-sm outline-none transition placeholder:text-text-muted focus:border-primary focus:ring-2 focus:ring-primary/20 sm:px-4 sm:py-3"
+            className="input-box w-full placeholder:text-text-muted"
           />
         </div>
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full rounded-button bg-primary py-2.5 font-semibold text-black transition hover:bg-primary-hover active:scale-[0.98] sm:py-3 text-sm sm:text-base cursor-pointer disabled:opacity-50"
+          className="btn-primary w-full py-2.5 sm:py-3 text-sm sm:text-base font-bold text-black cursor-pointer disabled:opacity-50"
         >
           {loading ? "Signing in..." : "Sign in"}
         </button>
 
         <button
           type="button"
-          className="flex w-full items-center justify-center gap-2 rounded-button border border-border py-2.5 font-medium transition hover:bg-surface-light sm:py-3 text-sm sm:text-base cursor-pointer"
+          className="cursor-pointer flex w-full items-center justify-center gap-2 rounded-button border border-border bg-surface px-4 py-2.5 sm:py-3 text-sm sm:text-base font-semibold text-text transition hover:bg-surface-light"
         >
           Continue with Google
         </button>
       </form>
 
-      <footer className="mt-5 text-center text-xs text-text-secondary sm:mt-6 sm:text-sm">
+      <footer className="mt-5 text-center text-xs sm:text-sm text-text-secondary">
         Don't have an account?
-        <Link href="/signup" className="ml-1 font-medium text-primary hover:text-primary-hover transition">
+        <Link href="/signup" className="ml-1 font-semibold text-primary hover:text-primary-hover transition">
           Sign up
         </Link>
       </footer>

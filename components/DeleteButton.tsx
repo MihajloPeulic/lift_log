@@ -4,7 +4,6 @@ import { useState, useRef } from "react";
 import { ConfirmDialog } from "./ConfirmDialog";
 import { useFormStatus } from "react-dom";
 
-
 type DeleteButtonProps  = {
   children: React.ReactNode;
   className?: string;
@@ -24,20 +23,18 @@ export function DeleteButton({
 
   const { pending } = useFormStatus();
     
-
   return (
     <>
         <button
-        
-        onClick={() => setOpen(true)}
-        type="button"
-        disabled={pending}
-        className={className}
+          onClick={() => setOpen(true)}
+          type="button"
+          disabled={pending}
+          className={className}
         >
-        {pending ? pendingText : children}
+          {pending ? pendingText : children}
         </button>
 
-        {/* pravo submit dugme */}
+        {/* Pravo submit dugme */}
         <button
             ref={deleteRef}
             hidden

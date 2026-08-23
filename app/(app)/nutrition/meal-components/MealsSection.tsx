@@ -27,9 +27,10 @@ export default function MealsSection({
   const dailyStuffAll = CalculateCaloriesAndMacros(dailyTargets, dailyTotals);
 
   return (
-    <section className="mt-6 w-full min-w-0 overflow-hidden sm:mt-10">
-      {/* Nutrijenti omotač sa overflow osiguranjem */}
-      <div className="mb-8 w-full min-w-0 sm:mb-12">
+    <section className="w-full min-w-0 overflow-hidden space-y-6 sm:space-y-8">
+      
+      {/* Nutrijenti omotač */}
+      <div className="w-full min-w-0">
         <CaloriesAndNutrients
           dailyTotals={dailyTotals}
           calorieGoal={dailyStuffAll.calorieGoal}
@@ -40,8 +41,8 @@ export default function MealsSection({
       </div>
 
       {/* Zaglavlje i dugme za dodavanje */}
-      <div className="mb-4 flex items-center justify-between gap-4 sm:mb-6">
-        <h2 className="truncate text-xl font-bold sm:text-2xl">
+      <div className="flex items-center justify-between gap-4">
+        <h2 className="text-lg sm:text-xl font-bold text-text truncate">
           Meals
         </h2>
 
@@ -57,6 +58,7 @@ export default function MealsSection({
       <div className="w-full min-w-0 min-h-[20vh]">
         <MealsList meals={meals} selectedDate={selectedDate} />
       </div>
+
     </section>
   );
 }

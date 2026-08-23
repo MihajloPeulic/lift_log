@@ -31,14 +31,14 @@ export default function WeightProgressChart({
         : data;
 
     return (
-        <section className="h-full w-full rounded-card border border-border bg-surface p-4 sm:p-card">
+        <section className="card-main h-full w-full">
             {/* Zaglavlje */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div>
-                    <h2 className="text-lg font-bold sm:text-xl">
+                    <h2 className="text-lg font-bold sm:text-xl text-text">
                         Bodyweight Progress
                     </h2>
-                    <p className="mt-0.5 text-xs text-text-secondary sm:text-sm">
+                    <p className="text-caption mt-0.5">
                         Your weight changes over time
                     </p>
                 </div>
@@ -70,11 +70,9 @@ export default function WeightProgressChart({
                             dy={10}
                         />
 
+                        {/* FIX: Donja granica postavljena na 0 kako stubovi ne bi krenuli iz pola grafika */}
                         <YAxis
-                            domain={[
-                                "dataMin - 2",
-                                "dataMax + 2"
-                            ]}
+                            domain={[0, "auto"]}
                             tickLine={false}
                             axisLine={false}
                             tick={{ fill: "currentColor", fontSize: 11 }}
@@ -84,7 +82,7 @@ export default function WeightProgressChart({
                         <Tooltip
                             contentStyle={{
                                 backgroundColor: "black",
-                                border: "none",
+                                border: "1px solid rgba(255, 255, 255, 0.1)",
                                 borderRadius: "8px",
                                 padding: "8px 12px",
                                 whiteSpace: "nowrap",

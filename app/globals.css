@@ -1,128 +1,194 @@
 @import "tailwindcss";
 
-
 @theme {
-
-  /* =====================
-     COLORS
-     ===================== */
-
   --color-background: #09090b;
-
   --color-surface: #18181b;
   --color-surface-light: #27272a;
-
+  
   --color-border: #27272a;
   --color-border-light: #3f3f46;
 
-
   --color-primary: #22c55e;
   --color-primary-hover: #16a34a;
-
 
   --color-danger: #ef4444;
   --color-warning: #eab308;
   --color-info: #3b82f6;
 
-
   --color-text: #ffffff;
   --color-text-secondary: #a1a1aa;
   --color-text-muted: #71717a;
-
-
-
-  /* =====================
-     SPACING
-     ===================== */
 
   --spacing-page: 20px;
   --spacing-section: 32px;
   --spacing-card: 24px;
 
-
-
-  /* =====================
-     RADIUS
-     ===================== */
-
   --radius-card: 16px;
   --radius-button: 12px;
-  --radius-input: 12px;
   --radius-pill: 9999px;
 
-
-
-  /* =====================
-     SHADOWS
-     ===================== */
-
-  --shadow-card:
-    0 10px 20px rgba(0,0,0,0.25);
-
-
-
-  /* =====================
-     FONTS
-     ===================== */
-
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-
+  --shadow-card: 0 10px 20px rgba(0,0,0,0.25);
 }
-
-
-
-
-/* =====================
-   GLOBAL
-   ===================== */
-
 
 :root {
   color-scheme: dark;
 }
 
-
 body {
   background-color: var(--color-background);
-  
   background-image: 
-    /* 1. Glavno svetlo (Key Light) - Dolazi blago iz gornjeg levog ugla, malo šire i jače */
     radial-gradient(circle at 15% 0%, rgba(255, 255, 255, 0.07) 0%, transparent 50%),
-    
-    /* 2. Dopunsko svetlo (Fill Light) - Dolazi iz gornjeg desnog ugla, mekše je i slabije */
     radial-gradient(circle at 85% 5%, rgba(255, 255, 255, 0.035) 0%, transparent 40%),
-    
-    /* 3. Donje svetlo (Rim/Ambient Light) - Suptilno izbija sa samog dna ekrana */
     radial-gradient(ellipse at 50% 110%, rgba(255, 255, 255, 0.03) 0%, transparent 50%);
-    
-  /* Fiksiramo svetla da stoje na mestu dok korisnik skrola sadržaj */
   background-attachment: fixed;
   background-repeat: no-repeat;
-  
   color: var(--color-text);
-  font-family: var(--font-sans);
+}
+
+/* =====================
+   DESIGN SYSTEM KLASE
+   ===================== */
+@layer components {
+  
+  /* Layout */
+  .layout-container {
+    @apply mx-auto max-w-2xl px-4 sm:px-0 mt-3 pb-10 space-y-4 sm:space-y-6;
+  }
+
+  /* Glavne kartice (Popravljeno) */
+  .card-main {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    padding: 1rem;
+    box-shadow: var(--shadow-card);
+  }
+  @media (min-width: 640px) {
+    .card-main { padding: 1.5rem; } /* 24px na PC */
+  }
+
+  /* Manje interaktivne kartice */
+  .card-inner {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    padding: 1rem;
+    transition: all 0.2s;
+  }
+  @media (min-width: 640px) {
+    .card-inner { padding: 1.25rem; } /* 20px na PC */
+  }
+  .card-inner:hover {
+    border-color: var(--color-border-light);
+  }
+  .card-inner:focus-within {
+    border-color: var(--color-primary);
+  }
+
+  /* Mali blokovi unutar sekcija */
+  .card-block {
+    background-color: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-button);
+    padding: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  @media (min-width: 640px) {
+    .card-block { padding: 1rem; }
+  }
+
+  /* Tipografija */
+  .text-h1 {
+    @apply text-xl sm:text-2xl font-bold;
+    color: var(--color-text);
+  }
+
+  .text-label {
+    @apply text-[11px] sm:text-xs font-semibold uppercase tracking-wider;
+    color: var(--color-text-secondary);
+  }
+
+  .text-value {
+    @apply text-xl sm:text-3xl font-extrabold;
+    color: var(--color-text);
+  }
+
+  /* Dugmad */
+  .btn-primary {
+    @apply flex w-full items-center justify-center gap-2 py-3 sm:py-4 text-sm sm:text-base font-bold transition cursor-pointer;
+    background-color: var(--color-primary);
+    color: #000;
+    border-radius: var(--radius-button);
+    box-shadow: var(--shadow-card);
+  }
+  .btn-primary:hover:not(:disabled) {
+    background-color: var(--color-primary-hover);
+  }
+  .btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* Kvadratna dugmad (Plus, Minus) */
+  .btn-icon {
+    @apply flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center transition;
+    background-color: var(--color-surface-light);
+    color: var(--color-text);
+    border-radius: var(--radius-button);
+  }
+  .btn-icon:hover:not(:disabled) {
+    background-color: var(--color-border-light);
+  }
+  .btn-icon:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  /* Ikone & Dekoracije */
+  .icon-sm {
+    @apply h-4 w-4 sm:h-5 sm:w-5 shrink-0;
+  }
+  .icon-md {
+    @apply h-5 w-5 sm:h-6 sm:w-6 shrink-0;
+  }
+
+  .icon-wrapper-primary {
+    @apply flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center border;
+    background-color: rgba(34, 197, 94, 0.1);
+    color: var(--color-primary);
+    border-color: rgba(34, 197, 94, 0.2);
+    border-radius: var(--radius-button);
+  }
+  
+  .icon-badge {
+    @apply flex h-8 w-8 sm:h-10 sm:w-10 shrink-0 items-center justify-center;
+    background-color: var(--color-surface-light);
+    border-radius: var(--radius-pill);
+  }
+
+  /* Tagovi (Pace) */
+  .badge-tag {
+    @apply inline-block px-2.5 py-1 text-[11px] sm:text-xs font-semibold border;
+    border-radius: var(--radius-pill);
+  }
+
+  /* Klasa za standardizovan, čist padding i izgled input polja */
+  .input-box {
+    @apply w-full rounded-button border border-border bg-background px-3.5 py-2.5 sm:py-2 text-sm text-text outline-none transition focus:border-primary;
+  }
+
+  /* Input */
+  .input-ghost {
+    @apply bg-transparent outline-none focus:ring-0 p-0;
+    color: var(--color-text);
+  }
 }
 
 @layer utilities {
-  /* Širina scrollbara */
-  .custom-scrollbar::-webkit-scrollbar {
-    width: 6px; /* Tanak i moderan */
-  }
-
-  /* Pozadina trake po kojoj klizi (track) */
-  .custom-scrollbar::-webkit-scrollbar-track {
-    background: transparent; 
-    border-radius: 8px;
-  }
-
-  /* Sam klizač (thumb) */
-  .custom-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-border rounded-full transition-colors;
-  }
-
-  /* Klizač kada se pređe mišem preko njega (hover) */
-  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    @apply bg-text-secondary; 
-  }
+  .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+  .custom-scrollbar::-webkit-scrollbar-track { background: transparent; border-radius: 8px; }
+  .custom-scrollbar::-webkit-scrollbar-thumb { @apply bg-border rounded-full transition-colors; }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover { @apply bg-text-secondary; }
 }

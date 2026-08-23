@@ -32,11 +32,11 @@ export default function DateSelector() {
   }
 
   return (
-    <div className="relative flex w-full items-center justify-between gap-2 rounded-card border border-border bg-surface p-3 sm:p-card">
+    <div className="card-main relative flex w-full items-center justify-between gap-3 p-3 sm:p-4">
       <Tooltip text="Yesterday">
         <button
           onClick={() => changeDay(-1)}
-          className="flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-button bg-surface-light hover:bg-surface"
+          className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 cursor-pointer items-center justify-center rounded-button bg-surface-light hover:bg-border transition-colors text-text font-bold"
         >
           ←
         </button>
@@ -44,10 +44,10 @@ export default function DateSelector() {
 
       <button
         onClick={openCalendar}
-        className="min-w-0 flex-1 cursor-pointer text-center px-2"
+        className="min-w-0 flex-1 cursor-pointer text-center px-2 group"
       >
-        <p className="text-xs text-text-secondary sm:text-sm">Today</p>
-        <p className="truncate text-base font-bold sm:text-xl">
+        <p className="text-caption">Today</p>
+        <p className="truncate text-base sm:text-lg font-bold text-text group-hover:text-primary transition-colors">
           {formatDate()}
         </p>
       </button>
@@ -55,7 +55,7 @@ export default function DateSelector() {
       <Tooltip text="Tomorrow">
         <button
           onClick={() => changeDay(1)}
-          className="flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-button bg-surface-light hover:bg-surface"
+          className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 cursor-pointer items-center justify-center rounded-button bg-surface-light hover:bg-border transition-colors text-text font-bold"
         >
           →
         </button>

@@ -21,14 +21,14 @@ export default function CaloriesProgressChart({
     data: CaloriesData[]
 }) {
     return (
-        <section className="h-full w-full rounded-card border border-border bg-surface p-4 sm:p-card">
+        <section className="card-main h-full w-full">
             {/* Zaglavlje */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div>
-                    <h2 className="text-lg font-bold sm:text-xl">
+                    <h2 className="text-lg font-bold sm:text-xl text-text">
                         Calories Consumed
                     </h2>
-                    <p className="mt-0.5 text-xs text-text-secondary sm:text-sm">
+                    <p className="text-caption mt-0.5">
                         Track your daily calorie intake
                     </p>
                 </div>
@@ -61,10 +61,7 @@ export default function CaloriesProgressChart({
                         />
 
                         <YAxis
-                            domain={[
-                                "dataMin - 200",
-                                "dataMax + 200"
-                            ]}
+                            domain={[0, "auto"]}
                             tickLine={false}
                             axisLine={false}
                             tick={{ fill: "currentColor", fontSize: 11 }}
@@ -74,7 +71,7 @@ export default function CaloriesProgressChart({
                         <Tooltip
                             contentStyle={{
                                 backgroundColor: "black",
-                                border: "none",
+                                border: "1px solid rgba(255, 255, 255, 0.1)",
                                 borderRadius: "8px",
                                 padding: "8px 12px",
                                 whiteSpace: "nowrap",
